@@ -56,9 +56,11 @@ spring:
             - Path=/platform/**
         # ========== YOLO 推理路由（ngrok 公网穿透） ==========
         - id: yolo-route
-          uri: ${YOLO_SERVICE_URL:http://localhost:5000}
+          uri: ${YOLO_SERVICE_URL:https://3aed-113-66-99-183.ngrok-free.app}
           predicates:
             - Path=/yolo/**
+          filters:
+            - StripPrefix=1
     sentinel:
       transport:
         port: 9999                   # Gateway 跟 Sentinel 控制台通信的端口

@@ -144,7 +144,7 @@ async function detect() {
     // dataURL → Blob → FormData
     const blob = await fetch(preview.value).then(r => r.blob())
     const form = new FormData()
-    form.append('image', blob, 'product.jpg')
+    form.append('file', blob, 'product.jpg')
 
     const res = await axios.post(`/yolo/detect?model=${model.value}`, form, {
       headers: { 'Content-Type': 'multipart/form-data' },

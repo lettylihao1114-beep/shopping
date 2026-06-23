@@ -14,9 +14,8 @@ export default defineConfig({
         rewrite: (path) => path.replace(/^\/api/, '')
       },
       '/yolo': {
-        target: 'http://localhost:5000',
-        changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/yolo/, '')
+        target: 'http://localhost:9000',
+        changeOrigin: true
       }
     }
   }
