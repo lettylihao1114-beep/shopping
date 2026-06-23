@@ -1,0 +1,63 @@
+server:
+  port: 9000
+
+spring:
+  application:
+    name: shop-gateway
+  cloud:
+    nacos:
+      discovery:
+        server-addr: localhost:8848
+    gateway:
+      discovery:
+        locator:
+          enabled: true              # 让 gateway 可以发现 Nacos 中的微服务
+      routes:
+        # ========== 鉴权服务路由 ==========
+        - id: auth-route
+          uri: lb://auth-service
+          predicates:
+            - Path=/a/login,/a/register,/a/current
+        # ========== 用户服务路由 ==========
+        - id: user-route
+          uri: lb://user-service
+          predicates:
+            - Path=/a/address/**
+        # ========== 商品服务路由 ==========
+        - id: product-route
+          uri: lb://product-service
+          predicates:
+            - Path=/a/products/**,/admin/**
+          filters:
+            - StripPrefix=1
+        # ========== 订单服务路由 ==========
+        - id: order-route
+          uri: lb://order-service
+          predicates:
+            - Path=/a/orders/**,/order-serv/**
+          filters:
+            - StripPrefix=1
+        # ========== 支付服务路由（Day08新增） ==========
+        - id: payment-route
+          uri: lb://payment-service
+          predicates:
+            - Path=/a/payment/**
+          filters:
+            - StripPrefix=1
+        # ========== 商家端路由（Day09新增） ==========
+        - id: merchant-route
+          uri: lb://order-service
+          predicates:
+            - Path=/m/**
+        # ========== 平台端路由（Day09新增） ==========
+        - id: platform-route
+          uri: lb://order-service
+          predicates:
+            - Path=/platform/**
+    sentinel:
+      transport:
+        port: 9999                   # Gateway 跟 Sentinel 控制台通信的端口
+        dashboard: localhost:8080    # Sentinel Dashboard 地址（与 Day03 共用）
+      # 让 Sentinel 网关流控规则生效
+      filter:
+        enabled: true

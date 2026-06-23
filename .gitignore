@@ -1,0 +1,64 @@
+# === Maven ===
+target/
+*.jar
+*.war
+*.class
+
+# === Node ===
+node_modules/
+dist/
+.vite/
+
+# === IDE ===
+.idea/
+*.iml
+.vscode/
+
+# === Runtime ===
+logs/
+work/
+*.log
+derby.log
+
+# === Excluded from repo (kept locally) ===
+Day_01*/
+Day_02*/
+Day_03*/
+Day_04*/
+Day_05*/
+Day_06*/
+day01/
+day02/
+day03/
+day04/
+day05/
+day06/
+day07/
+backend/
+docs/
+tools/
+_imgfetch/
+yolo/
+*.md
+!README.md
+!day08/**/*.md
+!frontend/**/*.md
+
+# === Temp / OS ===
+tmp/
+Thumbs.db
+.DS_Store
+~$*
+
+# === Product images ===
+frontend/yuexuan-app/src/assets/
+
+# === Misc local files ===
+6.17.txt
+
+# === Documents (binary) ===
+*.doc
+*.pdf
+*.pptx
+*.rar
+*.zip

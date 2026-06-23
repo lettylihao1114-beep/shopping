@@ -1,0 +1,43 @@
+server:
+  port: 8091
+  tomcat:
+    threads:
+      max: 10          # Day03：将 tomcat 最大并发值修改为 10，方便模拟服务雪崩
+
+spring:
+  application:
+    name: order-service     # ← Nacos 注册名
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/yuexuan?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai
+    username: root
+    password: 123456
+  cloud:
+    nacos:
+      discovery:
+        server-addr: localhost:8848
+    sentinel:
+      transport:
+        port: 8719            # 跟控制台交流的端口，随意指定一个未使用的端口即可
+        dashboard: localhost:8080  # Sentinel 控制台地址
+      web-context-unify: false    # 关闭资源聚合，让链路流控模式生效
+  # Day06：Zipkin 链路追踪
+  zipkin:
+    base-url: http://localhost:9411/    # Zipkin Server 地址
+    discovery-client-enabled: false     # 不要把它当成 Nacos 服务名
+  sleuth:
+    sampler:
+      probability: 1.0                  # 采样率 100%
+
+# Day03：开启 Feign 对 Sentinel 的支持（容错兜底）
+feign:
+  sentinel:
+    enabled: true
+
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  global-config:
+    db-config:
+      table-prefix: t_
+      id-type: auto

@@ -1,0 +1,98 @@
+/* ============================================================
+   悦选 管理后台 · 设计系统（与 C 端同款淘宝橙语言）
+   ============================================================ */
+:root {
+  /* 品牌主色（与 yuexuan-app 一致） */
+  --primary: #FF4400;
+  --primary-hover: #FF5D24;
+  --primary-dark: #E63C00;
+  --primary-bg: #FFF5F0;
+  --primary-light: #FFEDE5;
+  --yellow: #FFD500;
+
+  /* === 覆盖 Element Plus 主色 ladder（默认蓝 #409eff → 橙 #FF4400） === */
+  --el-color-primary: #FF4400;
+  --el-color-primary-light-3: #FF7440;
+  --el-color-primary-light-5: #FF9A72;
+  --el-color-primary-light-7: #FFC4A8;
+  --el-color-primary-light-8: #FFD9C5;
+  --el-color-primary-light-9: #FFF0E8;
+  --el-color-primary-dark-2: #E63C00;
+
+  /* 文本 */
+  --text-primary: #1a1a1a;
+  --text-regular: #444;
+  --text-secondary: #666;
+  --text-muted: #999;
+
+  /* 背景 */
+  --bg-page: #f5f5f5;
+  --bg-white: #fff;
+  --bg-soft: #fafafa;
+  --bg-gray: #f7f7f7;
+
+  /* 边框 */
+  --border: #ebebeb;
+  --border-light: #f0f0f0;
+  --border-strong: #ddd;
+
+  /* 阴影 */
+  --shadow-sm: 0 1px 2px rgba(0,0,0,0.04);
+  --shadow-card: 0 2px 12px rgba(0,0,0,0.05);
+  --shadow-hover: 0 6px 20px rgba(255,68,0,0.12);
+
+  /* 圆角 */
+  --r-sm: 6px;
+  --r-md: 10px;
+  --r-lg: 14px;
+  --r-round: 999px;
+
+  /* 字体 */
+  --font: 'PingFang SC','Microsoft YaHei','Noto Sans SC',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body { width: 100%; height: 100%; }
+body {
+  font-family: var(--font);
+  background: var(--bg-page);
+  color: var(--text-primary);
+  -webkit-font-smoothing: antialiased;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+/* 滚动条 */
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-thumb { background: #d4d4d4; border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: #bbb; }
+::-webkit-scrollbar-track { background: transparent; }
+
+/* 让 Element Plus 按钮圆角更柔和、表格更轻 */
+.el-button { border-radius: var(--r-sm); font-weight: 500; }
+.el-button--primary { box-shadow: 0 2px 6px rgba(255,68,0,0.2); }
+.el-button--primary:hover { box-shadow: 0 4px 10px rgba(255,68,0,0.3); transform: translateY(-1px); }
+.el-card, .el-dialog, .el-table, .el-tabs, .el-menu { border-radius: var(--r-md) !important; }
+.el-table { box-shadow: none; }
+.el-tag { border-radius: var(--r-sm); }
+.el-input__wrapper, .el-select__wrapper { border-radius: var(--r-sm) !important; }
+.el-dialog { overflow: hidden; }
+
+/* 价格统一红 */
+.price { color: var(--primary); font-weight: 700; }
+.price::before { content: '¥'; font-size: 0.85em; margin-right: 1px; }
+
+/* 通用卡片 */
+.adm-card {
+  background: var(--bg-white);
+  border-radius: var(--r-md);
+  box-shadow: var(--shadow-card);
+  padding: 22px 24px;
+}
+
+/* 页面壳 */
+.adm-page { max-width: 1320px; margin: 0 auto; }
+.adm-head { display: flex; align-items: flex-end; justify-content: space-between; margin-bottom: 22px; }
+.adm-head h2 { font-size: 22px; font-weight: 700; color: var(--text-primary); margin: 0; }
+.adm-head .sub { font-size: 13px; color: var(--text-muted); margin-top: 4px; display: block; }

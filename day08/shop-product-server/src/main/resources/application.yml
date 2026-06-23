@@ -1,0 +1,30 @@
+server:
+  port: 8081
+
+spring:
+  application:
+    name: product-service    # ← Nacos 注册名
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/yuexuan?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai
+    username: root
+    password: 123456
+  cloud:
+    nacos:
+      discovery:
+        server-addr: localhost:8848
+  # Day06：Zipkin 链路追踪
+  zipkin:
+    base-url: http://localhost:9411/    # Zipkin Server 地址
+    discovery-client-enabled: false     # 不要把它当成 Nacos 服务名
+  sleuth:
+    sampler:
+      probability: 1.0                  # 采样率 100%（开发用；生产建议 0.1）
+
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  global-config:
+    db-config:
+      table-prefix: t_
+      id-type: auto
