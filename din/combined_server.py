@@ -42,10 +42,10 @@ PRODUCTS = [
     {"pid":3,"name":"Air Max Sports Shoes","price":899,"category":"Sports","images":["airmax-1.png","airmax-2.png","airmax-3.png","airmax-4.png"]},
     {"pid":4,"name":"Cotton T-Shirt","price":129,"category":"Clothing","images":["tshirt-1.png","tshirt-2.png","tshirt-3.png","tshirt-4.png"]},
     {"pid":5,"name":"Nut Gift Box","price":88,"category":"Food","images":["nuts-1.png","nuts-2.png","nuts-3.png","nuts-4.png"]},
-    {"pid":6,"name":"Maz Maz Tomato Chips","price":15.9,"category":"Food","images":["mazmaz-fs-1.png","mazmaz-fs-2.png","mazmaz-fs-3.png","mazmaz-fs-4.png"]},
-    {"pid":7,"name":"Mini Lina Biscuits","price":12.9,"category":"Food","images":["minilina-1.png","minilina-2.png","minilina-3.png","minilina-4.png"]},
-    {"pid":8,"name":"Maz Maz Potato Sticks","price":13.9,"category":"Food","images":["mazmaz-tdd-1.png","mazmaz-tdd-2.png","mazmaz-tdd-3.png","mazmaz-tdd-4.png"]},
-    {"pid":9,"name":"Nordic Desk Lamp","price":159,"category":"Home","images":["lamp-1.png","lamp-2.png","lamp-3.png","lamp-4.png"]},
+    {"pid":6,"name":"Nordic Desk Lamp","price":159,"category":"Home","images":["lamp-1.png","lamp-2.png","lamp-3.png","lamp-4.png"]},
+    {"pid":7,"name":"Maz Maz Tomato Chips","price":15.9,"category":"Food","images":["mazmaz番茄-1.png","mazmaz番茄-2.png","mazmaz番茄-3.png","mazmaz番茄-4.png"]},
+    {"pid":8,"name":"Mini Lina Biscuits","price":12.9,"category":"Food","images":["minilina-1.png","minilina-2.png","minilina-3.png","minilina-4.png"]},
+    {"pid":9,"name":"Maz Maz Potato Sticks","price":13.9,"category":"Food","images":["mazmaz土豆条-1.png","mazmaz土豆条-2.png","mazmaz土豆条-3.png","mazmaz土豆条-4.png"]},
 ]
 
 COCO_CN = {"backpack":"Backpack","umbrella":"Umbrella","handbag":"Handbag","tie":"Tie","suitcase":"Suitcase","sports ball":"Ball","skateboard":"Skateboard","bottle":"Bottle","wine glass":"Glass","cup":"Cup","bowl":"Bowl","chair":"Chair","couch":"Sofa","potted plant":"Plant","bed":"Bed","dining table":"Table","tv":"TV","laptop":"Laptop","mouse":"Mouse","remote":"Remote","keyboard":"Keyboard","cell phone":"Phone","book":"Book","clock":"Clock","vase":"Vase","scissors":"Scissors","teddy bear":"Bear","hair drier":"Hair Drier","toothbrush":"Toothbrush","tennis racket":"Racket","frisbee":"Frisbee","banana":"Banana","apple":"Apple","sandwich":"Sandwich","orange":"Orange","broccoli":"Broccoli","carrot":"Carrot","hot dog":"Hot Dog","pizza":"Pizza","donut":"Donut","cake":"Cake","microwave":"Microwave","oven":"Oven","toaster":"Toaster","sink":"Sink","refrigerator":"Fridge"}
