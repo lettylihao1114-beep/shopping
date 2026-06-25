@@ -7,6 +7,7 @@
         <nav class="top-links">
           <a v-if="isAdmin" @click="$router.push('/admin/dashboard')" class="admin-link">⚙ 管理后台</a>
           <router-link to="/recognize" class="ai-link">🤖 AI 识物</router-link>
+          <router-link to="/service" class="service-link">💬 客服</router-link>
           <router-link to="/orders">我的订单</router-link>
           <router-link to="/cart">购物车</router-link>
           <a v-if="user" @click="logout" class="user">👤 {{ user }} · 退出</a>
@@ -155,6 +156,8 @@ watch(() => route.query.kw, (v) => {
 .top-links .admin-link { color: #FFD500; font-weight: 600; }
 .top-links .ai-link { color: #4ade80; font-weight: 600; }
 .top-links .ai-link:hover { color: #86efac; }
+.top-links .service-link { color: #FFD500; font-weight: 600; }
+.top-links .service-link:hover { color: #FFE566; }
 
 /* 主区 */
 .header-main {
