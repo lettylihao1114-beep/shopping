@@ -17,6 +17,7 @@ const ConfirmOrder = () => import('./views/ConfirmOrder.vue')
 const PayResult = () => import('./views/PayResult.vue')
 const UserOrders = () => import('./views/Orders.vue')
 const Recognize = () => import('./views/Recognize.vue')
+const Service = () => import('./views/ServiceView.vue')
 // 管理后台
 const Dashboard = () => import('./views/Dashboard.vue')
 const ProductManage = () => import('./views/ProductManage.vue')
@@ -37,6 +38,7 @@ const routes: RouteRecordRaw[] = [
   { path: '/result',        name: 'result',   component: PayResult },
   { path: '/orders',        name: 'orders',   component: UserOrders },
   { path: '/recognize',     name: 'recognize', component: Recognize },
+  { path: '/service',       name: 'service',   component: Service },
 
   // ---- 管理后台（shop / admin / platform） ----
   { path: '/admin/dashboard', name: 'dashboard',      component: Dashboard,      meta: { layout: 'admin', roles: ADMIN_ROLES } },

@@ -21,6 +21,10 @@ export default defineConfig({
         target: 'http://localhost:5000',
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/yolo/, '')
+      },
+      '/qa': {
+        target: 'http://localhost:8131',
+        changeOrigin: true,
       }
     }
   }

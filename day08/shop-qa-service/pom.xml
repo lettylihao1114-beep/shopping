@@ -1,0 +1,27 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent><groupId>com.gec</groupId><artifactId>shop-parent</artifactId><version>1.0-SNAPSHOT</version></parent>
+    <artifactId>shop-qa-service</artifactId><packaging>jar</packaging>
+    <description>智能客服QA微服务 :8131 — Neo4j 5.x Driver 直连</description>
+
+    <properties>
+        <neo4j-driver.version>5.28.5</neo4j-driver.version>
+    </properties>
+
+    <dependencies>
+        <dependency><groupId>com.gec</groupId><artifactId>shop-common</artifactId></dependency>
+        <dependency><groupId>org.springframework.boot</groupId><artifactId>spring-boot-starter-web</artifactId></dependency>
+        <dependency><groupId>com.alibaba.cloud</groupId><artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId></dependency>
+        <!-- Neo4j 5.x Driver（不用 Spring Data Neo4j） -->
+        <dependency>
+            <groupId>org.neo4j.driver</groupId>
+            <artifactId>neo4j-java-driver</artifactId>
+            <version>${neo4j-driver.version}</version>
+        </dependency>
+        <!-- MySQL -->
+        <dependency><groupId>com.baomidou</groupId><artifactId>mybatis-plus-boot-starter</artifactId></dependency>
+        <dependency><groupId>mysql</groupId><artifactId>mysql-connector-java</artifactId><scope>runtime</scope></dependency>
+    </dependencies>
+</project>
