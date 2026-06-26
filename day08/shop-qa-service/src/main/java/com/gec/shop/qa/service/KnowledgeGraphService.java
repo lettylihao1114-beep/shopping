@@ -39,10 +39,10 @@ public class KnowledgeGraphService {
                 {"3", "Air Max 运动跑鞋", "899", "运动鞋", "airmax-1.png"},
                 {"4", "纯棉圆领T恤", "129", "T恤", "tshirt-1.png"},
                 {"5", "坚果礼盒", "88", "食品", "nuts-1.png"},
-                {"6", "Maz Maz 番茄薯片", "15.9", "食品", "mazmaz番茄-1.png"},
-                {"7", "Mini Lina 迷你饼干", "12.9", "食品", "minilina-1.png"},
-                {"8", "Maz Maz 土豆条", "13.9", "食品", "mazmaz土豆条-1.png"},
-                {"9", "北欧风台灯", "159", "家居", "lamp-1.png"},
+                {"6", "北欧风台灯", "159", "家居", "lamp-1.png"},
+                {"7", "Maz Maz 番茄薯片", "15.9", "食品", "mazmaz番茄-1.png"},
+                {"8", "Mini Lina 迷你饼干", "12.9", "食品", "minilina-1.png"},
+                {"9", "Maz Maz 土豆条", "13.9", "食品", "mazmaz土豆条-1.png"},
             };
             for (String[] p : products) {
                 session.run(
