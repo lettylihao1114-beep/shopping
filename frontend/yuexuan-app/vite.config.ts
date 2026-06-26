@@ -14,13 +14,17 @@ export default defineConfig({
         rewrite: (path) => path.replace(/^\/api/, '')
       },
       '/recommend': {
-        target: 'http://localhost:5001',
+        target: 'http://localhost:5000',
         changeOrigin: true,
       },
       '/yolo': {
         target: 'http://localhost:5000',
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/yolo/, '')
+      },
+      '/qa': {
+        target: 'http://localhost:8131',
+        changeOrigin: true,
       }
     }
   }

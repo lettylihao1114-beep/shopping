@@ -145,8 +145,8 @@ const snackResults = ref<any[]>([])
 // 商品名映射（pid → name）
 const PRODUCT_NAMES: Record<number, string> = {
   1: '小米14 Ultra', 2: '华为 MatePad Pro', 3: 'Air Max 运动跑鞋',
-  4: '纯棉圆领T恤', 5: '坚果礼盒', 6: 'Maz Maz 番茄薯片',
-  7: 'Mini Lina 迷你饼干', 8: 'Maz Maz 土豆条', 9: '北欧风台灯',
+  4: '纯棉圆领T恤', 5: '坚果礼盒', 6: '北欧风台灯',
+  7: 'Maz Maz 番茄薯片', 8: 'Mini Lina 迷你饼干', 9: 'Maz Maz 土豆条',
 }
 
 function getProductName(pid: number): string {

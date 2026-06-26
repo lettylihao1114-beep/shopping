@@ -28,6 +28,7 @@
         <module>shop-user</module>
         <module>shop-gateway</module>
         <module>shop-payment</module>
+        <module>shop-qa-service</module>
     </modules>
 
     <properties>
