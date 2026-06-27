@@ -17,8 +17,12 @@
       </span>
     </nav>
 
-    <!-- 空 -->
-    <div v-if="!filtered.length" class="empty">
+    <!-- 加载/空 -->
+    <div v-if="loading" class="loading-box">
+      <div class="spinner"></div>
+      <p>订单加载中…</p>
+    </div>
+    <div v-else-if="!filtered.length" class="empty">
       <div class="empty-ico">{{ activeStatus ? '📭' : '🛒' }}</div>
       <p>{{ activeStatus ? '该状态下暂无订单' : '你还没有任何订单' }}</p>
       <span v-if="!activeStatus">下单后可在这里查看订单状态</span>
@@ -90,6 +94,7 @@ import ProductImage from '../components/ProductImage.vue'
 
 const orders = ref<Order[]>([])
 const activeStatus = ref('')
+const loading = ref(false)
 
 const tabs = [
   { label: '全部',   value: '' },
@@ -138,7 +143,9 @@ function guessCategory(n: string) {
 function fmtTime(t?: string) { return t ? t.substring(0, 19).replace('T', ' ') : '-' }
 
 async function load() {
+  loading.value = true
   try { orders.value = (await getOrders()) || [] } catch (e) { orders.value = [] }
+  finally { loading.value = false }
 }
 onMounted(load)
 

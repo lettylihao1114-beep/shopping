@@ -271,4 +271,21 @@ watch(() => route.query.kw, (v) => {
 
 .fade-enter-active, .fade-leave-active { transition: opacity 0.15s; }
 .fade-enter-from, .fade-leave-to { opacity: 0; }
+
+/* 响应式：窄屏收起顶部条与热搜 */
+@media (max-width: 768px) {
+  .top-bar { font-size: 11px; }
+  .top-links { gap: 10px; }
+  .top-links .service-link { display: none; }
+  .header-main { gap: 12px; padding: 12px 14px; }
+  .logo-text small { display: none; }
+  .search { max-width: none; }
+  .hot-words { display: none; }
+  .search-btn { padding: 0 16px; letter-spacing: 2px; }
+  .cart-btn span:not(.cart-badge) { display: none; }
+}
+@media (max-width: 480px) {
+  .top-bar-inner span { display: none; }
+  .top-links .ai-link { display: none; }
+}
 </style>

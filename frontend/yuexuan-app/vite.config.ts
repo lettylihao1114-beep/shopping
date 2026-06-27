@@ -14,7 +14,7 @@ export default defineConfig({
         rewrite: (path) => path.replace(/^\/api/, '')
       },
       '/recommend': {
-        target: 'http://localhost:5000',
+        target: 'https://65a8-113-66-97-102.ngrok-free.app',
         changeOrigin: true
       },
       '/qa': {
@@ -22,7 +22,7 @@ export default defineConfig({
         changeOrigin: true
       },
       '/yolo': {
-        target: 'http://localhost:5000',
+        target: 'https://65a8-113-66-97-102.ngrok-free.app',
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/yolo/, '')
       }

@@ -115,3 +115,25 @@ img { display: block; max-width: 100%; }
 .adm-head { display: flex; align-items: flex-end; justify-content: space-between; margin-bottom: 22px; }
 .adm-head h2 { font-size: 22px; font-weight: 700; color: var(--text-primary); margin: 0; }
 .adm-head .sub { font-size: 13px; color: var(--text-muted); margin-top: 4px; display: block; }
+
+/* ======= 全局加载占位/骨架 ======= */
+.loading-box { padding: 80px 20px; text-align: center; color: var(--text-muted); }
+.spinner {
+  width: 36px; height: 36px;
+  border: 3px solid var(--border);
+  border-top-color: var(--primary);
+  border-radius: 50%;
+  display: inline-block;
+  animation: spin 0.7s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+.loading-box p { margin-top: 14px; font-size: 14px; }
+
+/* ======= 响应式：窄屏容器适配 ======= */
+@media (max-width: 768px) {
+  .container { padding: 0 12px; }
+  body { font-size: 13px; }
+}
+
+/* 禁用移动端按住高亮、点按区域优化 */
+a, button, .cat-item, .tabs span { -webkit-tap-highlight-color: transparent; }

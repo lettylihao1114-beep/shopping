@@ -133,7 +133,10 @@
     </transition>
   </div>
 
-  <div v-else class="container loading">加载中...</div>
+  <div v-else class="container loading">
+    <div class="spinner" aria-label="加载中"></div>
+    <p>商品信息加载中…</p>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -217,6 +220,19 @@ function buyNow() {
   border-radius: var(--r-md);
   box-shadow: var(--shadow-card);
 }
+@media (max-width: 900px) {
+  .layout { grid-template-columns: 1fr; gap: 24px; }
+  .gallery { position: static; }
+  .gallery .main-img { max-width: 420px; }
+}
+@media (max-width: 480px) {
+  .detail { padding: 8px 12px 32px; }
+  .layout { padding: 16px; gap: 18px; }
+  .title { font-size: 19px; }
+  .big-price { font-size: 28px; }
+  .btn-cart, .btn-buy { flex: 1 1 0; }
+  .actions { gap: 10px; }
+}
 
 /* 左图 */
 .gallery { position: sticky; top: 80px; }
@@ -290,6 +306,7 @@ function buyNow() {
   border-bottom: 1px dashed var(--border);
   margin-bottom: 18px;
 }
+@media (max-width: 480px) { .props { grid-template-columns: 1fr; gap: 10px 0; } }
 .prop { display: flex; gap: 10px; font-size: 13px; }
 .prop .k { color: var(--text-muted); width: 48px; }
 .prop .v { color: var(--text-primary); }
@@ -424,5 +441,6 @@ function buyNow() {
 .toast-enter-active, .toast-leave-active { transition: all 0.25s; }
 .toast-enter-from, .toast-leave-to { opacity: 0; transform: translate(-50%, -10px); }
 
-.loading { padding: 80px; text-align: center; color: var(--text-muted); }
+.loading { padding: 80px 20px; text-align: center; color: var(--text-muted); }
+.loading p { margin-top: 14px; font-size: 14px; }
 </style>

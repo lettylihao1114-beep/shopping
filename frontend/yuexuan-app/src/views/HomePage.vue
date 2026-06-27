@@ -255,6 +255,16 @@ onUnmounted(() => { clearInterval(timer) })
   margin-top: 16px;
   align-items: stretch;
 }
+/* 响应式：窄屏先折叠侧栏 */
+@media (max-width: 1200px) {
+  .hero { grid-template-columns: 200px 1fr; }
+  .user-card { display: none; }
+}
+@media (max-width: 768px) {
+  .hero { grid-template-columns: 1fr; gap: 12px; }
+  .cats { height: auto; max-height: none; }
+  .banner-wrap { height: 200px; }
+}
 
 /* 左侧类目 */
 .cats {
@@ -439,6 +449,7 @@ onUnmounted(() => { clearInterval(timer) })
 }
 @media (max-width: 1100px) { .grid { grid-template-columns: repeat(4, 1fr); } }
 @media (max-width: 900px)  { .grid { grid-template-columns: repeat(3, 1fr); } }
+@media (max-width: 560px)  { .grid { grid-template-columns: repeat(2, 1fr); gap: 10px; } }
 
 .gcard {
   background: #fff;

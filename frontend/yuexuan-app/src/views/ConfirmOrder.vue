@@ -253,6 +253,19 @@ async function payOrder(orderId: number) {
 }
 .goods-head span { text-align: center; }
 .goods-head .g-info { text-align: left; }
+@media (max-width: 640px) {
+  .goods-head { display: none; }
+  .goods-row {
+    display: flex; flex-wrap: wrap; align-items: center;
+    gap: 8px 16px; padding: 14px 12px;
+  }
+  .g-info { flex: 1 1 100%; }
+  .g-price, .g-qty, .g-sub { flex: 0 0 auto; text-align: left; }
+  .g-sub { margin-left: auto; }
+  .summary-card .sum-rows > div { gap: 12px; }
+  .form-line label { width: 60px; }
+  .addr-err { padding-left: 72px; }
+}
 .goods-row { padding: 14px 12px; border-bottom: 1px solid var(--border-light); }
 .goods-row:last-child { border-bottom: none; }
 .g-info { display: flex; gap: 12px; cursor: pointer; min-width: 0; }

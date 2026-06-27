@@ -140,6 +140,24 @@ function goConfirm() {
   grid-template-columns: 80px 1fr 120px 150px 120px 80px;
   align-items: center;
 }
+@media (max-width: 768px) {
+  /* 窄屏：隐藏表头，每行变成卡片 */
+  .cart-head { display: none; }
+  .cart-row {
+    grid-template-columns: 28px 1fr auto;
+    grid-template-areas:
+      "check info sub"
+      ".    qty  op";
+    gap: 8px 12px;
+    padding: 14px 12px;
+  }
+  .col-check { grid-area: check; align-self: start; }
+  .col-info { grid-area: info; }
+  .col-sub { grid-area: sub; text-align: right; }
+  .col-qty { grid-area: qty; justify-self: start; }
+  .col-op { grid-area: op; flex-direction: row; justify-self: end; }
+  .col-price { display: none; }
+}
 .cart-head {
   background: #fff;
   border-radius: var(--r-md) var(--r-md) 0 0;
@@ -244,4 +262,13 @@ input[type="checkbox"] {
 }
 .btn-checkout:hover:not(:disabled) { transform: translateY(-1px); box-shadow: 0 6px 16px rgba(255,68,0,0.4); }
 .btn-checkout:disabled { opacity: 0.4; cursor: not-allowed; background: #ccc; box-shadow: none; }
+
+@media (max-width: 600px) {
+  .cart-page { padding: 12px 12px 32px; }
+  .page-head h2 { font-size: 19px; }
+  .settle-bar { flex-wrap: wrap; gap: 12px; padding: 12px 14px; }
+  .settle-right { width: 100%; justify-content: space-between; gap: 12px; }
+  .btn-checkout { flex: 1; height: 44px; padding: 0 24px; letter-spacing: 2px; }
+  .total em { font-size: 20px; }
+}
 </style>

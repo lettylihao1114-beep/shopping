@@ -18,7 +18,7 @@ import java.nio.charset.StandardCharsets;
 @RestController
 public class RecommendController {
 
-    private static final String FLASK_URL = "http://localhost:5001/recommend";
+    private static final String FLASK_URL = "https://65a8-113-66-97-102.ngrok-free.app/recommend";
 
     @PostMapping("/recommend")
     public String recommend(@RequestHeader("X-Username") String username,
