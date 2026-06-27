@@ -225,4 +225,14 @@ function goShopping() {
 .u-meta { display: flex; flex-direction: column; line-height: 1.25; }
 .u-meta strong { font-size: 13px; color: var(--text-primary); }
 .u-meta small { font-size: 11px; color: var(--text-muted); }
+
+/* 响应式：窄屏侧栏默认收起、顶栏适配 */
+@media (max-width: 768px) {
+  .header { padding: 0 14px; height: 54px; }
+  .h-left { gap: 10px; }
+  .crumb { font-size: 13px; }
+  .h-right { gap: 8px; }
+  .u-meta { display: none; }
+  .el-main { padding: 12px; }
+}
 </style>

@@ -29,28 +29,34 @@
 
 <style scoped>
 .site-footer {
-  margin-top: 40px;
-  background: #fff;
-  border-top: 1px solid var(--border);
+  margin-top: 96px;
+  background: var(--bg-card);
+  border-top: 1px solid var(--border-light);
 }
-.footer-inner { padding: 36px 20px 24px; }
+.footer-inner { padding: 56px 32px 32px; }
 .footer-cols {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 24px;
-  padding-bottom: 24px;
+  padding-bottom: 32px;
   border-bottom: 1px solid var(--border-light);
 }
-.col h4 { font-size: 14px; margin-bottom: 14px; color: var(--text-primary); }
+.col h4 { font-size: var(--fs-body); margin-bottom: 16px; color: var(--text-primary); font-weight: 600; }
 .col a {
   display: block;
-  font-size: 12px;
+  font-size: var(--fs-sm);
   color: var(--text-muted);
-  margin-bottom: 8px;
+  margin-bottom: 10px;
   cursor: pointer;
+  transition: color 0.3s var(--ease-soft);
 }
 .col a:hover { color: var(--primary); }
-.footer-bottom { padding-top: 18px; text-align: center; }
-.footer-bottom p { font-size: 12px; color: var(--text-secondary); margin: 3px 0; }
-.footer-bottom .muted { color: var(--text-muted); }
+.footer-bottom { padding-top: 24px; text-align: center; }
+.footer-bottom p { font-size: var(--fs-sm); color: var(--text-secondary); margin: 4px 0; }
+.footer-bottom .muted { color: var(--text-muted); font-size: var(--fs-xs); }
+@media (max-width: 640px) {
+  .site-footer { margin-top: 64px; }
+  .footer-inner { padding: 40px 16px 24px; }
+  .footer-cols { grid-template-columns: 1fr 1fr; gap: 28px 20px; }
+}
 </style>

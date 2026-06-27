@@ -1,52 +1,85 @@
 /* ============================================================
-   悦选 统一设计系统（C端 + 管理后台共用淘宝橙品牌色）
+   悦选 统一设计系统 v2 —— 克制 · 留白 · 呼吸
+   高端电商质感：暖白底 / 橙仅点缀 / 柔光分层阴影 / 大圆角 / 6 级字号阶梯
    ============================================================ */
 :root {
-  /* 品牌主色 */
+  /* 品牌主色（橙——只做点缀：价格 / 主按钮 / 强调） */
   --primary: #FF4400;
-  --primary-hover: #FF5D24;
-  --primary-dark: #E63C00;
-  --primary-bg: #FFF5F0;
-  --primary-light: #FFEDE5;
+  --primary-hover: #FF6A3D;
+  --primary-dark: #D83A00;
+  --primary-bg: #FFF3EC;
+  --primary-light: #FFE6D9;
   --yellow: #FFD500;
-  --yellow-dark: #FFC400;
+  --yellow-dark: #FFB400;
 
-  /* 文本 */
-  --text-primary: #1a1a1a;
-  --text-regular: #444;
-  --text-secondary: #777;
-  --text-muted: #999;
-  --text-placeholder: #bbb;
+  /* 文本（柔和黑阶，非纯黑提高高级感） */
+  --text-primary: #1B1A17;
+  --text-regular: #4A4742;
+  --text-secondary: #8A857C;
+  --text-muted: #B2ADA3;
+  --text-placeholder: #CABFAD;
 
-  /* 背景 */
-  --bg-page: #f5f5f5;
-  --bg-white: #fff;
-  --bg-card: #fff;
-  --bg-gray: #f7f7f7;
-  --bg-soft: #fafafa;
+  /* 背景：暖白 / 米调卡片，告别纯白 + 灰 */
+  --bg-page: #FAFAF7;
+  --bg-soft: #F4F2EC;
+  --bg-card: #FFFFFF;
+  --bg-card-warm: #FCFBF8;
+  --bg-gray: #F4F2EC;
+  --bg-tint: #FFFAF6;
 
-  /* 边框 */
-  --border: #ebebeb;
-  --border-light: #f0f0f0;
-  --border-strong: #ddd;
+  /* 边框：极淡，几乎靠阴影分层而非边框 */
+  --border: #ECE8DF;
+  --border-light: #F1EDE4;
+  --border-strong: #DDD7CA;
 
-  /* 阴影 */
-  --shadow-sm: 0 1px 2px rgba(0,0,0,0.04);
-  --shadow-md: 0 2px 12px rgba(0,0,0,0.08);
-  --shadow-card: 0 2px 8px rgba(0,0,0,0.06);
-  --shadow-hover: 0 6px 20px rgba(255,68,0,0.15);
+  /* === 阴影：柔光分层（elevation system）===
+     高级感核心：offset 大、blur 大、alpha 极低，靠近元素有近阴影、远处有环境光 */
+  --shadow-xs: 0 1px 2px rgba(27,26,23,0.04);
+  --shadow-sm: 0 2px 6px rgba(27,26,23,0.04), 0 1px 2px rgba(27,26,23,0.03);
+  --shadow-card: 0 4px 16px rgba(27,26,23,0.05), 0 1px 3px rgba(27,26,23,0.03);
+  --shadow-md: 0 8px 30px rgba(27,26,23,0.06), 0 2px 6px rgba(27,26,23,0.03);
+  --shadow-lg: 0 20px 50px rgba(27,26,23,0.08), 0 6px 14px rgba(27,26,23,0.04);
+  --shadow-hover: 0 18px 44px rgba(27,26,23,0.10), 0 4px 12px rgba(27,26,23,0.05);
+  /* 品牌色 glow（hover 时点亮，物理质感） */
+  --shadow-glow: 0 12px 30px rgba(255,68,0,0.18), 0 4px 10px rgba(255,68,0,0.10);
 
-  /* 圆角 */
-  --r-sm: 4px;
-  --r-md: 8px;
-  --r-lg: 12px;
-  --r-xl: 16px;
+  /* 圆角：放大，告别方正 */
+  --r-xs: 6px;
+  --r-sm: 10px;
+  --r-md: 14px;
+  --r-lg: 18px;
+  --r-xl: 24px;
+  --r-2xl: 32px;
   --r-round: 999px;
+
+  /* 间距尺度（呼吸感来源）：4 倍数阶梯 */
+  --sp-1: 4px;
+  --sp-2: 8px;
+  --sp-3: 12px;
+  --sp-4: 16px;
+  --sp-5: 24px;
+  --sp-6: 32px;
+  --sp-7: 48px;
+  --sp-8: 64px;
+  --sp-9: 96px;
+
+  /* 字号阶梯（6 级，靠差距拉层级而非靠加粗） */
+  --fs-display: 48px;
+  --fs-h1: 32px;
+  --fs-h2: 22px;
+  --fs-h3: 18px;
+  --fs-body: 15px;
+  --fs-sm: 13px;
+  --fs-xs: 12px;
 
   /* 容器 */
   --container: 1240px;
 
-  /* 字体 */
+  /* 缓动：高级感用非对称缓动，少用 linear/ease */
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-soft: cubic-bezier(0.16, 1, 0.3, 1);
+
+  /* 字体——加入 serif display 提升标题气质（可回退无 serif） */
   --font: 'PingFang SC','Microsoft YaHei','Noto Sans SC',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
 
   /* === 覆盖 Element Plus 主色（默认蓝 → 淘宝橙） === */
@@ -57,6 +90,8 @@
   --el-color-primary-light-8: #FFD9C5;
   --el-color-primary-light-9: #FFF0E8;
   --el-color-primary-dark-2: #E63C00;
+  --el-bg-color: #FFFFFF;
+  --el-fill-color-blank: #FCFBF8;
 }
 
 *,*::before,*::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -67,8 +102,14 @@ body {
   background: var(--bg-page);
   color: var(--text-primary);
   -webkit-font-smoothing: antialiased;
-  font-size: 14px;
-  line-height: 1.5;
+  -moz-osx-font-smoothing: grayscale;
+  font-size: var(--fs-body);
+  line-height: 1.6;
+  /* 微妙的纸张/绒面质感（极低不透明度噪点） */
+  background-image:
+    radial-gradient(1200px 600px at 80% -10%, rgba(255,68,0,0.025), transparent 60%),
+    radial-gradient(900px 500px at -10% 110%, rgba(255,180,0,0.02), transparent 55%);
+  background-attachment: fixed;
 }
 
 a { color: inherit; text-decoration: none; }
@@ -77,15 +118,19 @@ input { font-family: inherit; outline: none; }
 ul,li { list-style: none; }
 img { display: block; max-width: 100%; }
 
-/* 滚动条 */
-::-webkit-scrollbar { width: 8px; height: 8px; }
-::-webkit-scrollbar-thumb { background: #d0d0d0; border-radius: 4px; }
+/* 滚动条：更细更柔 */
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-thumb { background: #D8D2C6; border-radius: 10px; border: 3px solid var(--bg-page); }
+::-webkit-scrollbar-thumb:hover { background: #C2BBA9; }
 ::-webkit-scrollbar-track { background: transparent; }
 
+/* 文字渲染：标题更利落 */
+h1,h2,h3,h4 { letter-spacing: -0.01em; }
+
 /* 工具类 */
-.container { max-width: var(--container); margin: 0 auto; padding: 0 20px; }
+.container { max-width: var(--container); margin: 0 auto; padding: 0 32px; }
 .price { color: var(--primary); font-weight: 700; }
-.price::before { content: '¥'; font-size: 0.8em; margin-right: 1px; }
+.price::before { content: '¥'; font-size: 0.78em; margin-right: 1px; font-weight: 600; }
 .ellipsis { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .ellipsis-2 {
   display: -webkit-box;
@@ -94,46 +139,88 @@ img { display: block; max-width: 100%; }
   overflow: hidden;
 }
 
-/* ======= Element Plus 全局覆盖 ======= */
-.el-button { border-radius: var(--r-sm); font-weight: 500; }
-.el-button--primary { box-shadow: 0 2px 6px rgba(255,68,0,0.2); }
-.el-button--primary:hover { box-shadow: 0 4px 10px rgba(255,68,0,0.3); transform: translateY(-1px); }
-.el-card, .el-dialog, .el-table, .el-tabs, .el-menu { border-radius: var(--r-md) !important; }
-.el-table { box-shadow: none; }
-.el-tag { border-radius: var(--r-sm); }
-.el-input__wrapper, .el-select__wrapper { border-radius: var(--r-sm) !important; }
-.el-dialog { overflow: hidden; }
-
-/* ======= 管理后台通用类 ======= */
-.adm-card {
-  background: var(--bg-white);
-  border-radius: var(--r-md);
-  box-shadow: var(--shadow-card);
-  padding: 22px 24px;
+/* ============================================
+   呼吸感：滚动入场上浮（v-reveal 指令）
+   ============================================ */
+[v-reveal] {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.8s var(--ease-soft), transform 0.8s var(--ease-soft);
+  will-change: opacity, transform;
 }
-.adm-page { max-width: 1320px; margin: 0 auto; }
-.adm-head { display: flex; align-items: flex-end; justify-content: space-between; margin-bottom: 22px; }
-.adm-head h2 { font-size: 22px; font-weight: 700; color: var(--text-primary); margin: 0; }
-.adm-head .sub { font-size: 13px; color: var(--text-muted); margin-top: 4px; display: block; }
+[v-reveal].reveal-in { opacity: 1; transform: translateY(0); }
+/* 错落延迟（连排卡片可加 .reveal-d1/.d2/.d3） */
+[v-reveal].reveal-d1 { transition-delay: 0.06s; }
+[v-reveal].reveal-d2 { transition-delay: 0.12s; }
+[v-reveal].reveal-d3 { transition-delay: 0.18s; }
+[v-reveal].reveal-d4 { transition-delay: 0.24s; }
+@media (prefers-reduced-motion: reduce) {
+  [v-reveal] { opacity: 1 !important; transform: none !important; transition: none !important; }
+}
 
-/* ======= 全局加载占位/骨架 ======= */
-.loading-box { padding: 80px 20px; text-align: center; color: var(--text-muted); }
+/* ============================================
+   通用：卡片 / 区块标题 高级感基类
+   ============================================ */
+.yx-card {
+  background: var(--bg-card);
+  border-radius: var(--r-lg);
+  box-shadow: var(--shadow-card);
+  border: 1px solid var(--border-light);
+  transition: box-shadow 0.5s var(--ease-soft), transform 0.5s var(--ease-soft);
+}
+.yx-section-title {
+  font-size: var(--fs-h1);
+  font-weight: 700;
+  color: var(--text-primary);
+  letter-spacing: -0.02em;
+  display: flex; align-items: center; gap: 14px;
+}
+.yx-section-title .yx-bar {
+  width: 6px; height: 26px; border-radius: var(--r-round);
+  background: linear-gradient(180deg, var(--primary), var(--yellow));
+}
+.yx-section-sub { font-size: var(--fs-sm); color: var(--text-secondary); margin-top: 8px; }
+
+/* ======= 加载占位 ======= */
+.loading-box { padding: 96px 20px; text-align: center; color: var(--text-muted); }
 .spinner {
-  width: 36px; height: 36px;
-  border: 3px solid var(--border);
+  width: 40px; height: 40px;
+  border: 3px solid var(--border-light);
   border-top-color: var(--primary);
   border-radius: 50%;
   display: inline-block;
   animation: spin 0.7s linear infinite;
 }
 @keyframes spin { to { transform: rotate(360deg); } }
-.loading-box p { margin-top: 14px; font-size: 14px; }
+.loading-box p { margin-top: 16px; font-size: var(--fs-sm); }
 
-/* ======= 响应式：窄屏容器适配 ======= */
-@media (max-width: 768px) {
-  .container { padding: 0 12px; }
-  body { font-size: 13px; }
+/* ======= Element Plus 全局覆盖 ======= */
+.el-button { border-radius: var(--r-sm); font-weight: 500; transition: all 0.35s var(--ease-soft); }
+.el-button--primary { box-shadow: 0 2px 6px rgba(255,68,0,0.18); }
+.el-button--primary:hover { box-shadow: var(--shadow-glow); transform: translateY(-1px); }
+.el-card, .el-dialog, .el-table, .el-tabs, .el-menu { border-radius: var(--r-md) !important; }
+.el-table { box-shadow: none; }
+.el-tag { border-radius: var(--r-xs); }
+.el-input__wrapper, .el-select__wrapper { border-radius: var(--r-sm) !important; }
+.el-dialog { overflow: hidden; }
+
+/* ======= 管理后台通用类 ======= */
+.adm-card {
+  background: var(--bg-card);
+  border-radius: var(--r-md);
+  box-shadow: var(--shadow-card);
+  border: 1px solid var(--border-light);
+  padding: 28px 32px;
 }
+.adm-page { max-width: 1320px; margin: 0 auto; }
+.adm-head { display: flex; align-items: flex-end; justify-content: space-between; margin-bottom: 28px; }
+.adm-head h2 { font-size: var(--fs-h2); font-weight: 700; color: var(--text-primary); margin: 0; letter-spacing: -0.02em; }
+.adm-head .sub { font-size: var(--fs-sm); color: var(--text-muted); margin-top: 6px; display: block; }
 
-/* 禁用移动端按住高亮、点按区域优化 */
+/* ======= 响应式 ======= */
+@media (max-width: 768px) {
+  .container { padding: 0 16px; }
+  :root { --fs-display: 34px; --fs-h1: 26px; --fs-h2: 20px; --sp-9: 64px; }
+  body { font-size: var(--fs-sm); }
+}
 a, button, .cat-item, .tabs span { -webkit-tap-highlight-color: transparent; }

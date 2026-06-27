@@ -191,53 +191,58 @@ async function payOrder(orderId: number) {
 </script>
 
 <style scoped>
-.confirm-page { padding: 16px 20px 40px; }
+.confirm-page { padding: 24px 32px 64px; }
 
 .page-head {
   display: flex; align-items: baseline; justify-content: space-between;
-  margin: 8px 0 16px;
+  margin: 12px 0 28px;
 }
-.page-head h2 { font-size: 22px; font-weight: 700; }
-.back { font-size: 13px; color: var(--primary); }
+.page-head h2 { font-size: var(--fs-h1); font-weight: 700; letter-spacing: -0.02em; }
+.back { font-size: var(--fs-sm); color: var(--primary); font-weight: 500; }
 
 .empty {
-  background: #fff; border-radius: var(--r-md); box-shadow: var(--shadow-card);
-  text-align: center; padding: 80px 20px;
+  background: var(--bg-card); border-radius: var(--r-xl); box-shadow: var(--shadow-card);
+  border: 1px solid var(--border-light);
+  text-align: center; padding: 96px 20px;
 }
-.empty-ico { font-size: 64px; opacity: 0.5; margin-bottom: 16px; }
-.empty p { font-size: 16px; color: var(--text-regular); margin-bottom: 20px; }
+.empty-ico { font-size: 72px; opacity: 0.5; margin-bottom: 20px; }
+.empty p { font-size: var(--fs-h3); color: var(--text-regular); margin-bottom: 24px; }
 .empty .cta {
-  display: inline-block; padding: 9px 28px;
+  display: inline-block; padding: 11px 32px;
   background: var(--primary); color: #fff;
-  border-radius: var(--r-round); font-size: 14px;
+  border-radius: var(--r-round); font-size: var(--fs-body); font-weight: 600;
+  box-shadow: 0 6px 16px rgba(255,68,0,0.28);
+  transition: all 0.4s var(--ease-soft);
 }
+.empty .cta:hover { transform: translateY(-2px); box-shadow: var(--shadow-glow); }
 
 .card {
-  background: #fff;
-  border-radius: var(--r-md);
+  background: var(--bg-card);
+  border-radius: var(--r-lg);
   box-shadow: var(--shadow-card);
-  padding: 20px;
-  margin-bottom: 16px;
+  border: 1px solid var(--border-light);
+  padding: 28px 30px;
+  margin-bottom: 20px;
 }
 .card-title {
   display: flex; align-items: center; gap: 10px;
-  font-size: 15px; font-weight: 600; margin-bottom: 16px;
+  font-size: var(--fs-h3); font-weight: 700; margin-bottom: 22px; letter-spacing: -0.01em;
 }
-.card-title .bar { width: 3px; height: 16px; background: var(--primary); border-radius: 2px; }
+.card-title .bar { width: 5px; height: 18px; border-radius: var(--r-round); background: linear-gradient(180deg, var(--primary), var(--yellow)); }
 
 /* 地址 */
-.addr-form { display: flex; flex-direction: column; gap: 12px; }
-.form-line { display: flex; align-items: center; gap: 12px; }
-.form-line label { width: 72px; font-size: 13px; color: var(--text-secondary); flex-shrink: 0; }
+.addr-form { display: flex; flex-direction: column; gap: 14px; }
+.form-line { display: flex; align-items: center; gap: 14px; }
+.form-line label { width: 72px; font-size: var(--fs-sm); color: var(--text-secondary); flex-shrink: 0; }
 .form-line input {
-  flex: 1; height: 40px; padding: 0 14px;
+  flex: 1; height: 46px; padding: 0 16px;
   border: 1px solid var(--border-strong);
-  border-radius: var(--r-md);
-  font-size: 14px; background: var(--bg-soft);
-  transition: all 0.2s;
+  border-radius: var(--r-sm);
+  font-size: var(--fs-body); background: var(--bg-soft);
+  transition: all 0.35s var(--ease-soft);
 }
 .form-line input:focus { border-color: var(--primary); background: #fff; box-shadow: 0 0 0 3px var(--primary-light); }
-.addr-err { color: #DC2626; font-size: 13px; margin-top: 10px; padding-left: 84px; }
+.addr-err { color: #DC2626; font-size: var(--fs-sm); margin-top: 10px; padding-left: 86px; }
 
 /* 商品清单 */
 .goods-head, .goods-row {
@@ -246,10 +251,10 @@ async function payOrder(orderId: number) {
   align-items: center;
 }
 .goods-head {
-  padding: 10px 16px;
+  padding: 12px 18px;
   background: var(--bg-soft);
   border-radius: var(--r-sm);
-  font-size: 12px; color: var(--text-muted); margin-bottom: 8px;
+  font-size: var(--fs-xs); color: var(--text-muted); margin-bottom: 8px;
 }
 .goods-head span { text-align: center; }
 .goods-head .g-info { text-align: left; }
@@ -264,96 +269,101 @@ async function payOrder(orderId: number) {
   .g-sub { margin-left: auto; }
   .summary-card .sum-rows > div { gap: 12px; }
   .form-line label { width: 60px; }
-  .addr-err { padding-left: 72px; }
+  .addr-err { padding-left: 74px; }
 }
-.goods-row { padding: 14px 12px; border-bottom: 1px solid var(--border-light); }
+.goods-row { padding: 16px 18px; border-bottom: 1px solid var(--border-light); transition: background 0.4s var(--ease-soft); }
+.goods-row:hover { background: var(--bg-tint); }
 .goods-row:last-child { border-bottom: none; }
-.g-info { display: flex; gap: 12px; cursor: pointer; min-width: 0; }
-.g-info .thumb { width: 64px; height: 64px; flex-shrink: 0; }
-.g-info h4 { font-size: 14px; font-weight: 500; color: var(--text-primary); line-height: 1.4; }
+.g-info { display: flex; gap: 14px; cursor: pointer; min-width: 0; }
+.g-info .thumb { width: 68px; height: 68px; flex-shrink: 0; border-radius: var(--r-sm); overflow: hidden; box-shadow: var(--shadow-xs); }
+.g-info h4 { font-size: var(--fs-body); font-weight: 500; color: var(--text-primary); line-height: 1.45; }
 .g-info:hover h4 { color: var(--primary); }
-.g-info .cat { font-size: 12px; color: var(--text-muted); }
+.g-info .cat { font-size: var(--fs-xs); color: var(--text-muted); }
 .g-price, .g-qty, .g-sub { text-align: center; }
 .g-price { color: var(--text-primary); }
-.g-price::before { content: '¥'; font-size: 12px; color: var(--text-secondary); }
+.g-price::before { content: '¥'; font-size: var(--fs-xs); color: var(--text-secondary); }
 .g-qty { color: var(--text-secondary); }
 .g-sub { color: var(--primary); font-weight: 700; }
-.g-sub::before { content: '¥'; font-size: 13px; }
+.g-sub::before { content: '¥'; font-size: var(--fs-sm); }
 
 /* 配送 */
-.dispatch { display: flex; flex-direction: column; gap: 12px; }
-.d-row { display: flex; align-items: center; gap: 16px; font-size: 14px; }
-.d-row span { color: var(--text-secondary); width: 80px; }
+.dispatch { display: flex; flex-direction: column; gap: 14px; }
+.d-row { display: flex; align-items: center; gap: 16px; font-size: var(--fs-body); }
+.d-row span { color: var(--text-secondary); width: 84px; }
 .d-row b { color: var(--text-primary); font-weight: 500; }
 .d-row b.free { color: #22c55e; }
 
 /* 汇总 */
-.summary-card .sum-rows { display: flex; flex-direction: column; gap: 10px; }
+.summary-card .sum-rows { display: flex; flex-direction: column; gap: 12px; }
 .summary-card .sum-rows > div {
   display: flex; justify-content: flex-end; gap: 24px;
-  font-size: 13px; color: var(--text-secondary);
+  font-size: var(--fs-sm); color: var(--text-secondary);
 }
-.summary-card .sum-rows > div b { color: var(--text-primary); font-size: 15px; min-width: 90px; text-align: right; }
+.summary-card .sum-rows > div b { color: var(--text-primary); font-size: var(--fs-body); min-width: 90px; text-align: right; }
 .summary-card .sum-rows .free { color: #22c55e; }
 .pay-row {
   display: flex; justify-content: flex-end; align-items: baseline; gap: 18px;
-  margin-top: 16px; padding-top: 16px;
+  margin-top: 18px; padding-top: 18px;
   border-top: 1px dashed var(--border);
 }
-.pay-row span { font-size: 14px; color: var(--text-regular); }
+.pay-row span { font-size: var(--fs-body); color: var(--text-regular); }
 .pay-row em {
   font-style: normal;
-  font-size: 28px; font-weight: 800; color: var(--primary);
+  font-size: 32px; font-weight: 800; color: var(--primary); letter-spacing: -0.02em;
 }
-.pay-row em::before { content: '¥'; font-size: 15px; margin-right: 1px; }
+.pay-row em::before { content: '¥'; font-size: var(--fs-body); margin-right: 1px; font-weight: 600; }
 
 /* 提交按钮 */
-.action-bar { text-align: center; margin-top: 8px; }
+.action-bar { text-align: center; margin-top: 12px; }
 .btn-submit {
-  width: 100%; max-width: 320px;
-  height: 50px;
+  width: 100%; max-width: 360px;
+  height: 54px;
   background: linear-gradient(135deg, var(--primary), var(--primary-hover));
   color: #fff;
-  font-size: 18px; font-weight: 700; letter-spacing: 4px;
+  font-size: var(--fs-h3); font-weight: 700; letter-spacing: 4px;
   border-radius: var(--r-round);
   box-shadow: 0 6px 16px rgba(255,68,0,0.3);
-  transition: all 0.2s;
+  transition: all 0.4s var(--ease-soft);
 }
-.btn-submit:hover:not(:disabled) { transform: translateY(-1px); box-shadow: 0 8px 20px rgba(255,68,0,0.4); }
+.btn-submit:hover:not(:disabled) { transform: translateY(-2px); box-shadow: var(--shadow-glow); }
 .btn-submit:disabled { opacity: 0.6; cursor: wait; }
-.tip { font-size: 12px; color: var(--text-muted); margin-top: 10px; }
+.tip { font-size: var(--fs-xs); color: var(--text-muted); margin-top: 12px; }
 
 /* 支付阶段 */
 .pay-card { text-align: left; }
-.pay-success { display: flex; align-items: center; gap: 16px; padding-bottom: 18px; border-bottom: 1px dashed var(--border); margin-bottom: 18px; }
-.ps-ico { font-size: 44px; }
-.pay-success h3 { font-size: 18px; color: #22c55e; margin-bottom: 4px; }
-.pay-success p { font-size: 13px; color: var(--text-secondary); }
-.pay-list { display: flex; flex-direction: column; gap: 10px; margin-bottom: 18px; }
+.pay-success { display: flex; align-items: center; gap: 18px; padding-bottom: 20px; border-bottom: 1px dashed var(--border); margin-bottom: 20px; }
+.ps-ico { font-size: 48px; }
+.pay-success h3 { font-size: var(--fs-h3); color: #22c55e; margin-bottom: 4px; }
+.pay-success p { font-size: var(--fs-sm); color: var(--text-secondary); }
+.pay-list { display: flex; flex-direction: column; gap: 12px; margin-bottom: 20px; }
 .pay-row-item {
   display: flex; justify-content: space-between; align-items: center;
-  padding: 12px 16px; background: var(--bg-soft); border-radius: var(--r-md);
+  padding: 14px 18px; background: var(--bg-soft); border-radius: var(--r-md); border: 1px solid var(--border-light);
 }
-.pay-row-item span { font-size: 14px; color: var(--text-regular); }
-.pay-row-item code { background: #fff; padding: 2px 8px; border-radius: 3px; font-size: 13px; }
+.pay-row-item span { font-size: var(--fs-body); color: var(--text-regular); }
+.pay-row-item code { background: var(--bg-card); padding: 3px 10px; border-radius: var(--r-xs); font-size: var(--fs-sm); font-family: monospace; }
 .btn-pay {
-  padding: 8px 24px; background: #22c55e; color: #fff;
-  font-size: 14px; font-weight: 600; border-radius: var(--r-md);
+  padding: 9px 26px; background: #22c55e; color: #fff;
+  font-size: var(--fs-body); font-weight: 600; border-radius: var(--r-md);
+  box-shadow: 0 4px 12px rgba(34,197,94,0.25);
+  transition: all 0.4s var(--ease-soft);
 }
-.btn-pay:hover { background: #16a34a; }
-.pay-methods { display: flex; align-items: center; gap: 12px; padding-top: 16px; border-top: 1px dashed var(--border); }
-.pm-title { font-size: 13px; color: var(--text-secondary); }
+.btn-pay:hover { background: #16a34a; transform: translateY(-1px); }
+.pay-methods { display: flex; align-items: center; gap: 12px; padding-top: 18px; border-top: 1px dashed var(--border); }
+.pm-title { font-size: var(--fs-sm); color: var(--text-secondary); }
 .pm {
-  padding: 6px 16px; border: 1px solid var(--border); border-radius: var(--r-round);
-  font-size: 13px; color: var(--text-regular); cursor: pointer;
+  padding: 7px 18px; border: 1px solid var(--border); border-radius: var(--r-round);
+  font-size: var(--fs-sm); color: var(--text-regular); cursor: pointer;
+  transition: all 0.35s var(--ease-soft);
 }
+.pm:hover { border-color: var(--primary); color: var(--primary); }
 .pm.on { border-color: var(--primary); color: var(--primary); background: var(--primary-bg); }
 
 .msg {
-  margin-top: 14px; padding: 12px 16px;
+  margin-top: 16px; padding: 14px 18px;
   background: #FEF2F2; color: #DC2626;
   border-radius: var(--r-md); border-left: 3px solid #DC2626;
-  font-size: 14px; text-align: center;
+  font-size: var(--fs-body); text-align: center;
 }
 
 .shake-enter-active { animation: shake 0.3s; }
@@ -361,5 +371,13 @@ async function payOrder(orderId: number) {
   0%,100% { transform: translateX(0); }
   25% { transform: translateX(-4px); }
   75% { transform: translateX(4px); }
+}
+
+@media (max-width: 600px) {
+  .confirm-page { padding: 16px 16px 48px; }
+  .page-head h2 { font-size: var(--fs-h2); }
+  .card { padding: 20px 18px; }
+  .pay-row em { font-size: 26px; }
+  .btn-submit { letter-spacing: 2px; max-width: 100%; }
 }
 </style>

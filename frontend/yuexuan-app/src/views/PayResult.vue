@@ -32,75 +32,80 @@
 </script>
 
 <style scoped>
-.result-page { padding: 40px 20px; display: grid; place-items: center; min-height: 60vh; }
+.result-page { padding: 48px 20px; display: grid; place-items: center; min-height: 64vh; }
 .result-card {
-  background: #fff;
-  border-radius: var(--r-lg);
-  box-shadow: var(--shadow-md);
-  padding: 50px 60px;
+  background: var(--bg-card);
+  border-radius: var(--r-2xl);
+  box-shadow: var(--shadow-lg);
+  border: 1px solid var(--border-light);
+  padding: 56px 64px;
   text-align: center;
-  max-width: 560px;
+  max-width: 580px;
   width: 100%;
 }
 .big-ico {
-  font-size: 72px;
-  margin-bottom: 16px;
-  animation: pop 0.5s ease;
+  font-size: 80px;
+  margin-bottom: 20px;
+  animation: pop 0.6s var(--ease-soft);
 }
 @keyframes pop {
-  0% { transform: scale(0); }
-  70% { transform: scale(1.2); }
+  0% { transform: scale(0); opacity: 0; }
+  70% { transform: scale(1.2); opacity: 1; }
   100% { transform: scale(1); }
 }
 .result-card h2 {
-  font-size: 26px; font-weight: 700;
-  color: var(--text-primary); margin-bottom: 8px;
+  font-size: var(--fs-h1); font-weight: 700;
+  color: var(--text-primary); margin-bottom: 10px; letter-spacing: -0.02em;
 }
-.result-card > p { font-size: 15px; color: var(--text-secondary); margin-bottom: 32px; }
+.result-card > p { font-size: var(--fs-body); color: var(--text-secondary); margin-bottom: 40px; }
 
 /* 流程 */
 .flow {
   display: flex; align-items: center; justify-content: center;
-  gap: 8px; margin: 0 auto 32px; flex-wrap: wrap;
+  gap: 10px; margin: 0 auto 40px; flex-wrap: wrap;
 }
 .step {
-  display: flex; flex-direction: column; align-items: center; gap: 6px;
-  width: 110px;
+  display: flex; flex-direction: column; align-items: center; gap: 8px;
+  width: 120px;
 }
 .step span {
-  width: 36px; height: 36px;
+  width: 40px; height: 40px;
   border-radius: 50%;
-  background: var(--bg-gray); color: var(--text-muted);
+  background: var(--bg-soft); color: var(--text-muted);
   display: grid; place-items: center;
-  font-size: 15px; font-weight: 700;
+  font-size: var(--fs-body); font-weight: 700;
   border: 2px solid var(--border);
+  transition: all 0.4s var(--ease-soft);
 }
-.step b { font-size: 13px; color: var(--text-regular); font-weight: 600; }
-.step i { font-size: 11px; color: var(--text-muted); font-style: normal; }
-.step.done span { background: var(--primary); color: #fff; border-color: var(--primary); }
+.step b { font-size: var(--fs-sm); color: var(--text-regular); font-weight: 600; }
+.step i { font-size: var(--fs-xs); color: var(--text-muted); font-style: normal; }
+.step.done span { background: var(--primary); color: #fff; border-color: var(--primary); box-shadow: 0 6px 16px rgba(255,68,0,0.28); }
 .step.done b { color: var(--primary); }
-.line { width: 24px; height: 2px; background: var(--border); align-self: flex-start; margin-top: 17px; }
+.line { width: 28px; height: 2px; background: var(--border); align-self: flex-start; margin-top: 19px; }
 
 /* 按钮 */
 .links {
-  display: flex; gap: 14px; justify-content: center;
-  margin-bottom: 28px; flex-wrap: wrap;
+  display: flex; gap: 16px; justify-content: center;
+  margin-bottom: 36px; flex-wrap: wrap;
 }
 .btn-primary {
-  padding: 11px 30px;
+  padding: 13px 34px;
   background: linear-gradient(135deg, var(--primary), var(--primary-hover));
   color: #fff;
-  border-radius: var(--r-round); font-size: 15px; font-weight: 600;
-  box-shadow: 0 4px 12px rgba(255,68,0,0.3);
+  border-radius: var(--r-round); font-size: var(--fs-body); font-weight: 600;
+  box-shadow: 0 6px 16px rgba(255,68,0,0.3);
+  transition: all 0.4s var(--ease-soft);
 }
+.btn-primary:hover { transform: translateY(-2px); box-shadow: var(--shadow-glow); }
 .btn-secondary {
-  padding: 11px 30px;
-  background: var(--bg-gray); color: var(--text-regular);
-  border: 1px solid var(--border);
-  border-radius: var(--r-round); font-size: 15px;
+  padding: 13px 34px;
+  background: var(--bg-card); color: var(--text-regular);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--r-round); font-size: var(--fs-body);
+  transition: all 0.35s var(--ease-soft);
 }
-.btn-secondary:hover { color: var(--primary); border-color: var(--primary); }
+.btn-secondary:hover { color: var(--primary); border-color: var(--primary); transform: translateY(-1px); }
 
-.hint { font-size: 13px; color: var(--text-muted); }
+.hint { font-size: var(--fs-sm); color: var(--text-muted); }
 .hint a { color: var(--primary); }
 </style>

@@ -7,6 +7,28 @@ import './style.css'
 import App from './App.vue'
 import { parseRole } from './api'
 
+// ==================== v-reveal 滚动呼吸指令 ====================
+// 元素进入视口时上浮淡入，营造高级感呼吸节奏。无障碍：prefers-reduced-motion 下失效。
+const RevealDirective = {
+  mounted(el: HTMLElement, binding: { value?: number }) {
+    el.setAttribute('v-reveal', '')
+    if (binding.value && binding.value > 1) el.classList.add('reveal-d' + Math.min(binding.value, 4))
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((e) => {
+        if (e.isIntersecting) {
+          e.target.classList.add('reveal-in')
+          io.unobserve(e.target)
+        }
+      })
+    }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' })
+    io.observe(el)
+    ;(el as any)._revealIO = io
+  },
+  unmounted(el: HTMLElement) {
+    (el as any)._revealIO?.disconnect()
+  },
+}
+
 // ==================== 懒加载页面 ====================
 const Login = () => import('./views/Login.vue')
 // C端（购物）
@@ -91,5 +113,6 @@ const app = createApp(App)
 for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
   app.component(key, component)
 }
+app.directive('reveal', RevealDirective)
 
 app.use(router).use(ElementPlus).mount('#app')

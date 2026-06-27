@@ -55,9 +55,13 @@ const src = computed(() => {
   // 完整 http(s) URL 直接用
   if (/^https?:\/\//i.test(im)) return im
   // 已经带 / 前缀（如 "/images/xx.jpg"）
-  if (im.startsWith('/')) return im
-  // 否则当作 public/images 下的文件名
-  return `/images/${im}`
+  if (im.startsWith('/')) {
+    // 只编码路径部分
+    const parts = im.split('/')
+    return parts.map(p => p ? encodeURIComponent(p) : '').join('/') || im
+  }
+  // 否则当作 public/images 下的文件名，对中文名编码
+  return `/images/${encodeURIComponent(im)}`
 })
 
 const tag = computed(() => cat.value.label || (props.name || 'の商品'))

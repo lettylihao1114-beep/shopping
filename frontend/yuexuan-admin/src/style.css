@@ -1,16 +1,16 @@
 /* ============================================================
-   悦选 管理后台 · 设计系统（与 C 端同款淘宝橙语言）
+   悦选 管理后台 · 设计系统 v2（克制 · 留白 · 与 C 端同源）
    ============================================================ */
 :root {
-  /* 品牌主色（与 yuexuan-app 一致） */
+  /* 品牌主色（与 yuexuan-app 一致，仅做点缀） */
   --primary: #FF4400;
-  --primary-hover: #FF5D24;
-  --primary-dark: #E63C00;
-  --primary-bg: #FFF5F0;
-  --primary-light: #FFEDE5;
+  --primary-hover: #FF6A3D;
+  --primary-dark: #D83A00;
+  --primary-bg: #FFF3EC;
+  --primary-light: #FFE6D9;
   --yellow: #FFD500;
 
-  /* === 覆盖 Element Plus 主色 ladder（默认蓝 #409eff → 橙 #FF4400） === */
+  /* === 覆盖 Element Plus 主色 ladder === */
   --el-color-primary: #FF4400;
   --el-color-primary-light-3: #FF7440;
   --el-color-primary-light-5: #FF9A72;
@@ -18,36 +18,55 @@
   --el-color-primary-light-8: #FFD9C5;
   --el-color-primary-light-9: #FFF0E8;
   --el-color-primary-dark-2: #E63C00;
+  --el-bg-color: #FFFFFF;
+  --el-fill-color-blank: #FBFAF7;
 
-  /* 文本 */
-  --text-primary: #1a1a1a;
-  --text-regular: #444;
-  --text-secondary: #666;
-  --text-muted: #999;
+  /* 文本（柔和黑阶） */
+  --text-primary: #1B1A17;
+  --text-regular: #4A4742;
+  --text-secondary: #6E695F;
+  --text-muted: #97917F;
 
-  /* 背景 */
-  --bg-page: #f5f5f5;
+  /* 背景：暖白 / 米调 */
+  --bg-page: #F6F4EE;
   --bg-white: #fff;
-  --bg-soft: #fafafa;
-  --bg-gray: #f7f7f7;
+  --bg-soft: #F1EEE5;
+  --bg-gray: #F4F2EC;
+  --bg-tint: #FFFAF6;
 
   /* 边框 */
-  --border: #ebebeb;
-  --border-light: #f0f0f0;
-  --border-strong: #ddd;
+  --border: #ECE7DC;
+  --border-light: #F1EDE4;
+  --border-strong: #DAD3C5;
 
-  /* 阴影 */
-  --shadow-sm: 0 1px 2px rgba(0,0,0,0.04);
-  --shadow-card: 0 2px 12px rgba(0,0,0,0.05);
-  --shadow-hover: 0 6px 20px rgba(255,68,0,0.12);
+  /* 阴影：柔光分层 */
+  --shadow-xs: 0 1px 2px rgba(27,26,23,0.04);
+  --shadow-sm: 0 2px 6px rgba(27,26,23,0.04), 0 1px 2px rgba(27,26,23,0.03);
+  --shadow-card: 0 4px 16px rgba(27,26,23,0.05), 0 1px 3px rgba(27,26,23,0.03);
+  --shadow-md: 0 8px 30px rgba(27,26,23,0.06), 0 2px 6px rgba(27,26,23,0.03);
+  --shadow-hover: 0 18px 44px rgba(27,26,23,0.10), 0 4px 12px rgba(27,26,23,0.05);
+  --shadow-glow: 0 12px 30px rgba(255,68,0,0.18), 0 4px 10px rgba(255,68,0,0.10);
 
   /* 圆角 */
-  --r-sm: 6px;
-  --r-md: 10px;
-  --r-lg: 14px;
+  --r-sm: 8px;
+  --r-md: 12px;
+  --r-lg: 16px;
+  --r-xl: 20px;
   --r-round: 999px;
 
-  /* 字体 */
+  /* 字号阶梯 */
+  --fs-display: 40px;
+  --fs-h1: 28px;
+  --fs-h2: 22px;
+  --fs-h3: 18px;
+  --fs-body: 14px;
+  --fs-sm: 13px;
+  --fs-xs: 12px;
+
+  /* 缓动 */
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-soft: cubic-bezier(0.16, 1, 0.3, 1);
+
   --font: 'PingFang SC','Microsoft YaHei','Noto Sans SC',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
 }
 
@@ -59,40 +78,70 @@ body {
   background: var(--bg-page);
   color: var(--text-primary);
   -webkit-font-smoothing: antialiased;
-  font-size: 14px;
-  line-height: 1.5;
+  -moz-osx-font-smoothing: grayscale;
+  font-size: var(--fs-body);
+  line-height: 1.6;
 }
 
-/* 滚动条 */
-::-webkit-scrollbar { width: 8px; height: 8px; }
-::-webkit-scrollbar-thumb { background: #d4d4d4; border-radius: 4px; }
-::-webkit-scrollbar-thumb:hover { background: #bbb; }
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-thumb { background: #D6CFBE; border-radius: 10px; border: 3px solid var(--bg-page); }
+::-webkit-scrollbar-thumb:hover { background: #C0B8A4; }
 ::-webkit-scrollbar-track { background: transparent; }
 
-/* 让 Element Plus 按钮圆角更柔和、表格更轻 */
-.el-button { border-radius: var(--r-sm); font-weight: 500; }
-.el-button--primary { box-shadow: 0 2px 6px rgba(255,68,0,0.2); }
-.el-button--primary:hover { box-shadow: 0 4px 10px rgba(255,68,0,0.3); transform: translateY(-1px); }
+h1,h2,h3,h4 { letter-spacing: -0.01em; }
+
+/* Element Plus 柔化 */
+.el-button { border-radius: var(--r-sm); font-weight: 500; transition: all 0.35s var(--ease-soft); }
+.el-button--primary { box-shadow: 0 2px 6px rgba(255,68,0,0.18); }
+.el-button--primary:hover { box-shadow: var(--shadow-glow); transform: translateY(-1px); }
 .el-card, .el-dialog, .el-table, .el-tabs, .el-menu { border-radius: var(--r-md) !important; }
 .el-table { box-shadow: none; }
 .el-tag { border-radius: var(--r-sm); }
 .el-input__wrapper, .el-select__wrapper { border-radius: var(--r-sm) !important; }
-.el-dialog { overflow: hidden; }
+.el-dialog { overflow: hidden; border: 1px solid var(--border-light); }
 
 /* 价格统一红 */
 .price { color: var(--primary); font-weight: 700; }
 .price::before { content: '¥'; font-size: 0.85em; margin-right: 1px; }
 
+/* 呼吸感：滚动入场上浮（v-reveal） */
+[v-reveal] {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.8s var(--ease-soft), transform 0.8s var(--ease-soft);
+  will-change: opacity, transform;
+}
+[v-reveal].reveal-in { opacity: 1; transform: translateY(0); }
+[v-reveal].reveal-d1 { transition-delay: 0.06s; }
+[v-reveal].reveal-d2 { transition-delay: 0.12s; }
+[v-reveal].reveal-d3 { transition-delay: 0.18s; }
+[v-reveal].reveal-d4 { transition-delay: 0.24s; }
+@media (prefers-reduced-motion: reduce) {
+  [v-reveal] { opacity: 1 !important; transform: none !important; transition: none !important; }
+}
+
 /* 通用卡片 */
 .adm-card {
   background: var(--bg-white);
-  border-radius: var(--r-md);
+  border-radius: var(--r-lg);
   box-shadow: var(--shadow-card);
-  padding: 22px 24px;
+  border: 1px solid var(--border-light);
+  padding: 28px 32px;
 }
 
 /* 页面壳 */
-.adm-page { max-width: 1320px; margin: 0 auto; }
-.adm-head { display: flex; align-items: flex-end; justify-content: space-between; margin-bottom: 22px; }
-.adm-head h2 { font-size: 22px; font-weight: 700; color: var(--text-primary); margin: 0; }
-.adm-head .sub { font-size: 13px; color: var(--text-muted); margin-top: 4px; display: block; }
+.adm-page { max-width: 1360px; margin: 0 auto; }
+.adm-head {
+  display: flex; align-items: flex-end; justify-content: space-between;
+  margin-bottom: 28px;
+}
+.adm-head h2 { font-size: var(--fs-h1); font-weight: 700; color: var(--text-primary); margin: 0; letter-spacing: -0.02em; }
+.adm-head .sub { font-size: var(--fs-sm); color: var(--text-muted); margin-top: 6px; display: block; }
+
+/* 响应式 */
+@media (max-width: 768px) {
+  .adm-page { max-width: 100%; }
+  .adm-head { flex-wrap: wrap; gap: 12px; margin-bottom: 18px; }
+  .adm-head h2 { font-size: var(--fs-h2); }
+  .adm-card { padding: 18px 18px; border-radius: var(--r-md); }
+}

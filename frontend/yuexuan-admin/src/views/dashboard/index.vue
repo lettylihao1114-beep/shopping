@@ -10,7 +10,7 @@
 
     <!-- 4 个核心指标卡 -->
     <div class="kpi-grid">
-      <div class="kpi" v-for="k in kpis" :key="k.label">
+      <div class="kpi" v-for="(k, i) in kpis" :key="k.label" v-reveal="(i % 4) + 1">
         <div class="kpi-ico" :style="{ background: k.bg }">
           <el-icon :size="22"><component :is="k.icon" /></el-icon>
         </div>
@@ -25,7 +25,7 @@
     <!-- 中部双栏：状态分布 + 今日概览 -->
     <div class="row-2">
       <!-- 状态分布 -->
-      <div class="adm-card">
+      <div class="adm-card" v-reveal>
         <div class="card-head"><h3>订单状态分布</h3><small>共 {{ total }} 笔</small></div>
         <div class="dist-list">
           <div class="dist" v-for="d in dist" :key="d.key">
@@ -39,7 +39,7 @@
       </div>
 
       <!-- 今日概览 -->
-      <div class="adm-card today-card">
+      <div class="adm-card today-card" v-reveal>
         <div class="card-head"><h3>今日概览</h3><el-tag size="small" type="warning" effect="plain">{{ today }}</el-tag></div>
         <div class="today-grid">
           <div class="t-item">
@@ -67,7 +67,7 @@
     </div>
 
     <!-- 最近订单 -->
-    <div class="adm-card">
+    <div class="adm-card" v-reveal>
       <div class="card-head">
         <h3>最近订单</h3>
         <el-button text type="primary" @click="$router.push('/orders')">查看全部 →</el-button>
@@ -175,70 +175,72 @@ onMounted(load)
 .kpi-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 16px;
-  margin-bottom: 18px;
+  gap: 18px;
+  margin-bottom: 20px;
 }
 @media (max-width: 1100px) { .kpi-grid { grid-template-columns: repeat(2, 1fr); } }
 
 .kpi {
-  background: #fff;
-  border-radius: var(--r-md);
+  background: var(--bg-white);
+  border-radius: var(--r-lg);
   box-shadow: var(--shadow-card);
-  padding: 20px;
-  display: flex; align-items: center; gap: 16px;
-  transition: all 0.2s;
+  border: 1px solid var(--border-light);
+  padding: 24px;
+  display: flex; align-items: center; gap: 18px;
+  transition: box-shadow 0.5s var(--ease-soft), transform 0.5s var(--ease-soft);
 }
-.kpi:hover { transform: translateY(-3px); box-shadow: var(--shadow-hover); }
+.kpi:hover { transform: translateY(-4px); box-shadow: var(--shadow-hover); }
 .kpi-ico {
-  width: 52px; height: 52px;
-  border-radius: var(--r-sm);
+  width: 56px; height: 56px;
+  border-radius: var(--r-md);
   display: grid; place-items: center;
   color: #fff; flex-shrink: 0;
+  box-shadow: 0 6px 16px rgba(27,26,23,0.10);
 }
 .kpi-body { flex: 1; min-width: 0; }
 .kpi-num {
-  font-size: 28px; font-weight: 800; color: var(--text-primary);
-  line-height: 1.1;
+  font-size: 30px; font-weight: 800; color: var(--text-primary);
+  line-height: 1.1; letter-spacing: -0.02em;
 }
 .kpi-num.primary { color: var(--primary); }
 .kpi-num.warning { color: #E67E22; }
 .kpi-num.success { color: #16A34A; }
-.kpi-label { font-size: 13px; color: var(--text-secondary); margin-top: 2px; }
-.kpi-foot { font-size: 11px; color: var(--text-muted); margin-top: 4px; }
+.kpi-label { font-size: var(--fs-sm); color: var(--text-secondary); margin-top: 3px; }
+.kpi-foot { font-size: var(--fs-xs); color: var(--text-muted); margin-top: 4px; }
 
 /* 双栏 */
 .row-2 {
   display: grid;
   grid-template-columns: 1.3fr 1fr;
-  gap: 16px;
-  margin-bottom: 18px;
+  gap: 18px;
+  margin-bottom: 20px;
 }
 @media (max-width: 1100px) { .row-2 { grid-template-columns: 1fr; } }
 
 .card-head {
   display: flex; align-items: baseline; justify-content: space-between;
-  margin-bottom: 16px;
-  padding-bottom: 12px;
+  margin-bottom: 18px;
+  padding-bottom: 14px;
   border-bottom: 1px solid var(--border-light);
 }
-.card-head h3 { font-size: 16px; font-weight: 600; color: var(--text-primary); margin: 0; }
-.card-head small { font-size: 12px; color: var(--text-muted); }
+.card-head h3 { font-size: var(--fs-h3); font-weight: 700; color: var(--text-primary); margin: 0; letter-spacing: -0.01em; }
+.card-head small { font-size: var(--fs-xs); color: var(--text-muted); }
 
 /* 状态分布 */
-.dist-list { display: flex; flex-direction: column; gap: 14px; }
+.dist-list { display: flex; flex-direction: column; gap: 16px; }
 .dist {
-  display: flex; align-items: center; gap: 10px;
-  font-size: 13px;
+  display: flex; align-items: center; gap: 12px;
+  font-size: var(--fs-sm);
 }
-.dist .d-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
-.dist .d-name { width: 56px; color: var(--text-regular); }
+.dist .d-dot { width: 9px; height: 9px; border-radius: 50%; flex-shrink: 0; }
+.dist .d-name { width: 60px; color: var(--text-regular); }
 .dist .d-bar {
-  flex: 1; height: 8px; background: var(--border-light);
-  border-radius: 4px; overflow: hidden;
+  flex: 1; height: 10px; background: var(--border-light);
+  border-radius: var(--r-round); overflow: hidden;
 }
-.dist .d-bar i { display: block; height: 100%; border-radius: 4px; transition: width 0.4s; }
-.dist .d-num { font-weight: 600; color: var(--text-primary); min-width: 36px; text-align: right; }
-.dist .d-pct { color: var(--text-muted); min-width: 38px; text-align: right; }
+.dist .d-bar i { display: block; height: 100%; border-radius: var(--r-round); transition: width 0.6s var(--ease-soft); }
+.dist .d-num { font-weight: 700; color: var(--text-primary); min-width: 38px; text-align: right; }
+.dist .d-pct { color: var(--text-muted); min-width: 40px; text-align: right; }
 
 /* 今日卡 */
 .today-card { display: flex; flex-direction: column; }
@@ -247,29 +249,32 @@ onMounted(load)
   flex: 1;
 }
 .t-item {
-  padding: 14px;
+  padding: 16px;
   background: var(--bg-soft);
-  border-radius: var(--r-sm);
+  border-radius: var(--r-md);
   text-align: center;
+  border: 1px solid var(--border-light);
+  transition: transform 0.4s var(--ease-soft);
 }
-.t-num { font-size: 26px; font-weight: 800; color: var(--text-primary); }
+.t-item:hover { transform: translateY(-2px); }
+.t-num { font-size: 28px; font-weight: 800; color: var(--text-primary); letter-spacing: -0.02em; }
 .t-num.primary { color: var(--primary); }
-.t-lab { font-size: 12px; color: var(--text-muted); margin-top: 4px; }
+.t-lab { font-size: var(--fs-xs); color: var(--text-muted); margin-top: 5px; }
 .today-tip {
   display: flex; align-items: center; gap: 8px;
-  margin-top: 14px; padding: 10px 14px;
-  background: #F0FDF4; border-radius: var(--r-sm);
-  font-size: 12px; color: #16A34A;
+  margin-top: 16px; padding: 11px 16px;
+  background: #F0FDF4; border-radius: var(--r-sm); border: 1px solid #DCFCE7;
+  font-size: var(--fs-xs); color: #16A34A;
 }
 .today-tip .el-icon { color: #22C55E; }
 
 /* 商品单元格 */
-.prod-cell { display: flex; align-items: center; gap: 10px; }
-.prod-name { font-size: 14px; color: var(--text-primary); line-height: 1.3; }
-.prod-meta { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+.prod-cell { display: flex; align-items: center; gap: 12px; }
+.prod-name { font-size: var(--fs-body); color: var(--text-primary); line-height: 1.35; }
+.prod-meta { font-size: var(--fs-xs); color: var(--text-muted); margin-top: 3px; }
 .ord-no {
-  background: var(--bg-soft); padding: 2px 8px; border-radius: 4px;
-  font-family: monospace; font-size: 12px; color: var(--text-regular);
+  background: var(--bg-soft); padding: 3px 9px; border-radius: var(--r-xs);
+  font-family: monospace; font-size: var(--fs-xs); color: var(--text-regular);
 }
-.t-cell { font-size: 12px; color: var(--text-muted); }
+.t-cell { font-size: var(--fs-xs); color: var(--text-muted); }
 </style>
