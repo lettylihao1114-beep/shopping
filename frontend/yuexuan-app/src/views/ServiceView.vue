@@ -75,7 +75,9 @@ async function send(text: string) {
 
 async function scrollToBottom() {
   await nextTick()
-  bottomRef.value?.scrollIntoView({ behavior: 'smooth' })
+  if (bodyRef.value) {
+    bodyRef.value.scrollTop = bodyRef.value.scrollHeight
+  }
 }
 </script>
 

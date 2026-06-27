@@ -2,14 +2,17 @@ package com.gec.shop.qa.service;
 
 import com.gec.shop.qa.engine.QueryEngine;
 import org.neo4j.driver.*;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 /**
- * 知识图谱问答服务 — 整合 GraphBuilder + QueryEngine。
+ * 知识图谱问答服务 — 整合 GraphBuilder + QueryEngine + JSONL 知识库。
  * 对应 RAG4Pro main.py 的编排逻辑。
  */
 @Service
@@ -31,66 +34,24 @@ public class KnowledgeGraphService {
 
     @PostConstruct
     public void init() {
-        try (Session session = driver.session()) {
-            // 清空旧数据（开发环境）
-            session.run("MATCH (n) DETACH DELETE n");
+        this.engine = new QueryEngine(driver);
+        engine.buildIndex(graphBuilder.getBrands(), graphBuilder.getCategories());
 
-            // 1. 分类
-            for (String cat : Arrays.asList("数码", "运动鞋", "T恤", "食品", "家居")) {
-                session.run("CREATE (:Category {name: $name})", Map.of("name", cat));
-            }
+        // 加载规则：JSONL 外部知识库 + 内置硬编码规则
+        List<Map<String, String>> rules = new ArrayList<>();
+        rules.addAll(loadJsonlRules());
+        rules.addAll(buildHardcodedRules());
+        engine.loadQARules(rules);
 
-            // 2. 商品 + 关联分类
-            String[][] products = {
-                {"1", "小米14 Ultra", "6999", "数码", "xiaomi-1.png"},
-                {"2", "华为 MatePad Pro", "4999", "数码", "huawei-1.png"},
-                {"3", "Air Max 运动跑鞋", "899", "运动鞋", "airmax-1.png"},
-                {"4", "纯棉圆领T恤", "129", "T恤", "tshirt-1.png"},
-                {"5", "坚果礼盒", "88", "食品", "nuts-1.png"},
-                {"6", "北欧风台灯", "159", "家居", "lamp-1.png"},
-                {"7", "Maz Maz 番茄薯片", "15.9", "食品", "mazmaz番茄-1.png"},
-                {"8", "Mini Lina 迷你饼干", "12.9", "食品", "minilina-1.png"},
-                {"9", "Maz Maz 土豆条", "13.9", "食品", "mazmaz土豆条-1.png"},
-            };
-            for (String[] p : products) {
-                session.run(
-                    "CREATE (p:Product {pid: $pid, name: $name, price: $price, category: $cat, image: $img}) " +
-                    "WITH p MATCH (c:Category {name: $cat}) CREATE (p)-[:BELONGS_TO]->(c)",
-                    Map.of("pid", Long.parseLong(p[0]), "name", p[1], "price", Double.parseDouble(p[2]),
-                           "cat", p[3], "img", p[4])
-                );
-            }
-
-            // 3. QA 知识
-            String[][] qas = {
-                {"小米14Ultra多少钱", "小米14 Ultra 售价 ¥6,999", "price", "小米"},
-                {"华为平板价格", "华为 MatePad Pro 售价 ¥4,999", "price", "华为"},
-                {"AirMax跑鞋价格", "Air Max 运动跑鞋 ¥899", "price", "跑鞋"},
-                {"零食价格", "伊朗零食 ¥12.9 起，坚果礼盒 ¥88", "price", "价格"},
-                {"小米有货吗", "小米14 Ultra 库存充足", "stock", "库存"},
-                {"台灯有货吗", "北欧风台灯库存充足", "stock", "库存"},
-                {"怎么退货", "签收后7天内可无理由退货，联系客服即可", "return", "退货"},
-                {"退款多久到账", "退款审核通过后1-3个工作日原路返回", "return", "退款"},
-                {"多久到货", "默认快递3-5天，偏远地区5-7天", "express", "快递"},
-                {"包邮吗", "满99元包邮，不满99元邮费8元", "express", "运费"},
-                {"小米和华为哪个好", "小米14 Ultra ¥6,999（旗舰影像），华为 MatePad Pro ¥4,999（平板办公）", "compare", "对比"},
-                {"有什么好吃的", "坚果礼盒¥88、Maz Maz番茄薯片¥15.9、Mini Lina饼干¥12.9", "category", "推荐"},
-                {"数码产品有哪些", "小米14 Ultra ¥6,999、华为 MatePad Pro ¥4,999", "category", "数码"},
-                {"你好", "您好！欢迎光临悦选商城，有什么可以帮您？", "greet", "你好"},
-                {"在吗", "在的，请问有什么需要帮助的吗？", "greet", "在吗"},
-            };
-            for (String[] qa : qas) {
-                session.run(
-                    "CREATE (:Question {question: $q, answer: $a, intent: $i, keyword: $k})",
-                    Map.of("q", qa[0], "a", qa[1], "i", qa[2], "k", qa[3])
-                );
-            }
-            System.out.println(">>> Neo4j 知识图谱初始化完成：9商品 + 15问答");
-        } catch (Exception e) {
-            System.err.println(">>> Neo4j 初始化失败: " + e.getMessage());
-            e.printStackTrace();
-        }
+        System.out.println("[QA] QueryEngine 初始化完成: " +
+            graphBuilder.getBrands().size() + " 品牌, " +
+            graphBuilder.getCategories().size() + " 类目, " +
+            rules.size() + " QA规则");
     }
+
+    // ═══════════════════════════════════════
+    // 问答接口
+    // ═══════════════════════════════════════
 
     public Map<String, Object> ask(String question) {
         return engine.answer(question);
@@ -137,21 +98,165 @@ public class KnowledgeGraphService {
         return stats;
     }
 
-    private List<Map<String, String>> buildQARules() {
+    // ═══════════════════════════════════════
+    // JSONL 知识库加载（1800 条电商 QA）
+    // ═══════════════════════════════════════
+
+    private List<Map<String, String>> loadJsonlRules() {
         List<Map<String, String>> rules = new ArrayList<>();
-        rules.add(Map.of("keyword", "你好", "answer", "您好！欢迎光临悦选商城，有什么可以帮您？", "intent", "greet"));
-        rules.add(Map.of("keyword", "在吗", "answer", "在的，请问有什么需要帮助的吗？", "intent", "greet"));
-        rules.add(Map.of("keyword", "小米14Ultra多少钱", "answer", "小米14 Ultra 售价 6,999", "intent", "price"));
-        rules.add(Map.of("keyword", "华为平板价格",   "answer", "华为 MatePad Pro 售价 4,999", "intent", "price"));
-        rules.add(Map.of("keyword", "退货", "answer", "签收后7天内可无理由退货，联系客服即可", "intent", "return"));
-        rules.add(Map.of("keyword", "退款", "answer", "退款审核通过后1-3个工作日原路返回", "intent", "return"));
-        rules.add(Map.of("keyword", "到货", "answer", "默认快递3-5天，偏远地区5-7天", "intent", "express"));
-        rules.add(Map.of("keyword", "包邮", "answer", "满99元包邮，不满99元邮费8元", "intent", "express"));
-        rules.add(Map.of("keyword", "快递", "answer", "默认中通/圆通发货，3-5天送达", "intent", "express"));
-        rules.add(Map.of("keyword", "小米和华为哪个好",
-            "answer", "小米14 Ultra 6,999（旗舰影像），华为 MatePad Pro 4,999（平板办公）", "intent", "compare"));
-        rules.add(Map.of("keyword", "有什么好吃的",
-            "answer", "坚果礼盒88、MazMaz番茄薯片15.9、MiniLina饼干12.9", "intent", "category"));
+        try {
+            ClassPathResource resource = new ClassPathResource("data/ChineseEcomQA.jsonl");
+            try (BufferedReader reader = new BufferedReader(
+                    new InputStreamReader(resource.getInputStream(), StandardCharsets.UTF_8))) {
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    if (line.trim().isEmpty()) continue;
+                    // JSONL 格式: {"question":"...", "answer":"..."}  或 {"q":"...", "a":"..."}
+                    Map<String, String> rule = parseJsonlLine(line);
+                    if (rule != null) rules.add(rule);
+                }
+            }
+            System.out.println("[QA] 从 JSONL 加载 " + rules.size() + " 条知识库规则");
+        } catch (Exception e) {
+            System.out.println("[QA] JSONL 知识库加载失败: " + e.getMessage() + "，仅使用内置规则");
+        }
         return rules;
+    }
+
+    /** 简易 JSONL 行解析（不依赖第三方 JSON 库） */
+    private Map<String, String> parseJsonlLine(String line) {
+        try {
+            String q = extractJsonValue(line, "question");
+            if (q == null) q = extractJsonValue(line, "q");
+            String a = extractJsonValue(line, "answer");
+            if (a == null) a = extractJsonValue(line, "a");
+            String intent = extractJsonValue(line, "intent");
+            if (q != null && a != null) {
+                Map<String, String> rule = new LinkedHashMap<>();
+                // 取问题中最长的连续中文字段作为关键词
+                rule.put("keyword", extractKeyword(q));
+                rule.put("answer", a);
+                rule.put("intent", intent != null ? intent : "qa");
+                return rule;
+            }
+        } catch (Exception ignored) {}
+        return null;
+    }
+
+    private String extractJsonValue(String json, String key) {
+        String searchKey = "\"" + key + "\"";
+        int keyIdx = json.indexOf(searchKey);
+        if (keyIdx < 0) return null;
+        int colonIdx = json.indexOf(":", keyIdx + searchKey.length());
+        if (colonIdx < 0) return null;
+        int startQuote = json.indexOf("\"", colonIdx + 1);
+        if (startQuote < 0) return null;
+        int endQuote = json.indexOf("\"", startQuote + 1);
+        if (endQuote < 0) return null;
+        return json.substring(startQuote + 1, endQuote)
+            .replace("\\\"", "\"").replace("\\n", "\n").replace("\\\\", "\\");
+    }
+
+    /** 从问题文本中提取最长的关键词（取最长连续中文字段） */
+    private String extractKeyword(String question) {
+        java.util.regex.Matcher m = java.util.regex.Pattern.compile("[\\u4e00-\\u9fa5\\w]{2,}")
+            .matcher(question);
+        String best = question; // fallback: 整句
+        int maxLen = 0;
+        while (m.find()) {
+            String seg = m.group();
+            if (seg.length() > maxLen) {
+                maxLen = seg.length();
+                best = seg;
+            }
+            // 优先匹配含产品名词的片段
+            if (seg.length() >= 3 && (seg.contains("退货") || seg.contains("快递") ||
+                seg.contains("退款") || seg.contains("支付") || seg.contains("推荐") ||
+                seg.contains("优惠") || seg.contains("保修"))) {
+                return seg;
+            }
+        }
+        return best;
+    }
+
+    // ═══════════════════════════════════════
+    // 内置硬编码规则（兜底 + 增强）
+    // ═══════════════════════════════════════
+
+    private List<Map<String, String>> buildHardcodedRules() {
+        List<Map<String, String>> rules = new ArrayList<>();
+
+        // ── 问候 ──
+        rules.add(rule("你好", "您好！欢迎光临悦选商城 🛒 有什么可以帮您？", "greeting"));
+        rules.add(rule("在吗", "在的！请问有什么需要帮助的吗？", "greeting"));
+        rules.add(rule("hi", "Hi! Welcome to YueXuan Shopping. How can I help you?", "greeting"));
+        rules.add(rule("hello", "Hello! 欢迎来到悦选，您可以问我商品价格、库存、推荐等问题~", "greeting"));
+        rules.add(rule("早上好", "早上好！新的一天，来看看有什么好物吧~", "greeting"));
+        rules.add(rule("你是谁", "我是悦选商城的智能客服 🤖，基于 RAG4Pro 知识图谱引擎，可以帮您查商品、比价格、推荐好物、解答售后问题！", "greeting"));
+
+        // ── 价格 ──
+        rules.add(rule("小米14Ultra多少钱", "小米14 Ultra 售价 6,999 元，旗舰影像手机", "price"));
+        rules.add(rule("华为平板价格", "华为 MatePad Pro 售价 4,999 元，办公学习两不误", "price"));
+        rules.add(rule("坚果礼盒", "三只松鼠坚果礼盒 88 元，节日送礼首选", "price"));
+        rules.add(rule("最便宜", "目前最便宜的是 MiniLina 饼干 12.9 元、MazMaz 土豆条 13.9 元、MazMaz 番茄薯片 15.9 元", "price"));
+        rules.add(rule("最贵", "目前最贵的是小米14 Ultra 6,999 元、华为 MatePad Pro 4,999 元、Air Max 跑鞋 899 元", "price"));
+
+        // ── 退换货 / 售后 ──
+        rules.add(rule("退货", "签收后 7 天内可无理由退货，保持商品完好即可，联系客服处理", "after_sales"));
+        rules.add(rule("退款", "退款审核通过后 1-3 个工作日原路返回，具体到账时间以银行为准", "after_sales"));
+        rules.add(rule("换货", "收货后 15 天内可申请换货，运费由我们承担", "after_sales"));
+        rules.add(rule("保修", "电子产品享有一年全国联保，食品类不支持保修哦", "after_sales"));
+        rules.add(rule("售后", "售后电话 400-888-6666，工作日 9:00-18:00，也可在线联系客服", "after_sales"));
+        rules.add(rule("投诉", "非常抱歉给您带来不便！请通过客服电话 400-888-6666 或在线客服反馈，我们会在 24 小时内处理", "after_sales"));
+        rules.add(rule("质量问题", "如商品有质量问题，请拍照联系客服，确认后可免费退换", "after_sales"));
+
+        // ── 物流 ──
+        rules.add(rule("到货", "默认中通/圆通发货，3-5 天送达，偏远地区 5-7 天", "shipping"));
+        rules.add(rule("包邮", "满 99 元包邮，不满 99 元邮费 8 元", "shipping"));
+        rules.add(rule("快递", "默认中通/圆通发货，顺丰需加 10 元，3-5 天送达", "shipping"));
+        rules.add(rule("发货", "下单后 24 小时内发货，节假日顺延", "shipping"));
+        rules.add(rule("运费", "满 99 元包邮，不满 99 元运费 8 元，顺丰加 10 元", "shipping"));
+
+        // ── 支付 ──
+        rules.add(rule("支付方式", "支持微信支付、支付宝、银行卡、花呗分期，暂不支持货到付款", "payment"));
+        rules.add(rule("怎么付款", "在订单确认页面选择支付方式：微信/支付宝/银行卡/花呗分期均可", "payment"));
+        rules.add(rule("分期", "花呗分期支持 3/6/12 期，手续费率 2.5%-7.5%", "payment"));
+
+        // ── 推荐 ──
+        rules.add(rule("有什么好吃的", "热门零食：三只松鼠坚果礼盒 88 元、MazMaz 番茄薯片 15.9 元、MiniLina 饼干 12.9 元、MazMaz 土豆条 13.9 元", "recommend"));
+        rules.add(rule("送礼物", "送礼推荐：坚果礼盒 88 元（体面大方）、华为 MatePad Pro 4,999 元（实用高端）、北欧风台灯 159 元（温馨家居）", "recommend"));
+        rules.add(rule("数码推荐", "数码好物：小米14 Ultra 6,999 元（旗舰影像）、华为 MatePad Pro 4,999 元（办公平板）", "recommend"));
+        rules.add(rule("运动推荐", "运动装备：Air Max 运动跑鞋 899 元，舒适透气，跑步健身必备", "recommend"));
+        rules.add(rule("学生党", "学生党推荐：MiniLina 饼干 12.9 元、MazMaz 薯片 15.9 元、纯棉T恤 129 元、北欧台灯 159 元，都是性价比之选", "recommend"));
+
+        // ── 对比 ──
+        rules.add(rule("小米和华为哪个好", "小米14 Ultra 6,999 元（旗舰影像手机）vs 华为 MatePad Pro 4,999 元（办公平板），用途不同：一个手机一个平板。拍照选小米，办公选华为！", "compare"));
+        rules.add(rule("薯片和饼干", "MazMaz 番茄薯片 15.9 元（酥脆口感）vs MiniLina 饼干 12.9 元（香甜可口），喜欢咸口选薯片，甜口选饼干~", "compare"));
+
+        // ── 优惠 ──
+        rules.add(rule("优惠", "当前优惠：坚果礼盒满 2 件 9 折、MazMaz 零食买 3 免 1、新人首单减 10 元", "discount"));
+        rules.add(rule("打折", "限时活动：食品类满 50 减 5、数码类满 1000 减 50，详情见首页活动页", "discount"));
+        rules.add(rule("促销", "本月促销：MazMaz 薯片第 2 件半价、三只松鼠坚果买 2 送 1", "discount"));
+
+        // ── 商品咨询 ──
+        rules.add(rule("有没有小米", "有的！小米14 Ultra 6,999 元，旗舰影像手机，骁龙处理器", "product"));
+        rules.add(rule("有没有华为", "有的！华为 MatePad Pro 4,999 元，办公平板，鸿蒙系统", "product"));
+        rules.add(rule("卖什么", "悦选商城主营：数码（手机/平板）、运动鞋服、食品零食、家居用品，9 款精选商品等您来选~", "category"));
+        rules.add(rule("有什么品类", "我们的品类包括：📱 数码、👟 运动鞋、👕 T恤、🍪 食品、🏠 家居，共 9 款精选商品", "category"));
+
+        // ── 其他 ──
+        rules.add(rule("客服电话", "客服热线：400-888-6666，工作日 9:00-18:00", "other"));
+        rules.add(rule("营业时间", "在线客服工作时间：工作日 9:00-18:00，周末 10:00-17:00", "other"));
+        rules.add(rule("怎么联系", "在线客服：右下角聊天窗口 / 电话：400-888-6666 / 邮箱：support@yuexuan.com", "other"));
+
+        return rules;
+    }
+
+    private Map<String, String> rule(String keyword, String answer, String intent) {
+        Map<String, String> r = new LinkedHashMap<>();
+        r.put("keyword", keyword);
+        r.put("answer", answer);
+        r.put("intent", intent);
+        return r;
     }
 }

@@ -78,7 +78,7 @@ public class Trie {
     public static class EntityMatch {
         public final int start, end;
         public final String name, type;
-        EntityMatch(int start, int end, String name, String type) {
+        public EntityMatch(int start, int end, String name, String type) {
             this.start = start; this.end = end; this.name = name; this.type = type;
         }
     }

@@ -15,16 +15,16 @@ export default defineConfig({
       },
       '/recommend': {
         target: 'http://localhost:5000',
-        changeOrigin: true,
+        changeOrigin: true
+      },
+      '/qa': {
+        target: 'http://localhost:8131',
+        changeOrigin: true
       },
       '/yolo': {
         target: 'http://localhost:5000',
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/yolo/, '')
-      },
-      '/qa': {
-        target: 'http://localhost:8131',
-        changeOrigin: true,
       }
     }
   }
